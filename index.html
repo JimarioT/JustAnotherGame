@@ -221,7 +221,8 @@
 				}
 				
 				if(job == "farmer") {
-					var test = campaignInfo.baseInfo.buildings.farms.buildingInfo.builtStatus;
+					console.log('1');
+					var test = campaignInfo.baseInfo.buildings.farms.buildingInfo.builtStatus;					
 					if(test.length > 0) {
 						for (var i =0; i < test.length; i++) {
 							workforce = workforce + test[i].currentlyWorking;
@@ -266,12 +267,12 @@
 					console.log(workforce);
 					$('.stoneCutterWorkforce').text(workforce);
 				}
-				if (job == 'Farmer') {
-					var Farmers = $(a).parent().attr('data-workers');					
-					$(a).parent().attr('data-workers', parseFloat(Farmers) + 1);
-					workforce = $('.FarmerWorkforce').text();
+				if (job == 'farmer') {
+					var farmers = $(a).parent().attr('data-workers');					
+					$(a).parent().attr('data-workers', parseFloat(farmers) + 1);
+					workforce = $('.farmerWorkforce').text();
 					workforce ++;
-					$('.FarmerWorkforce').text(workforce);
+					$('.farmerWorkforce').text(workforce);
 				}
 
 				clearInterval(intervalCarrier);

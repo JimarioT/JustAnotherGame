@@ -31,7 +31,7 @@ function generateResources() {
 		var foodIncrease = (10 * parseFloat($('.foodWorkforce').text())) * 0.5;
 	}
 	else {
-		var stoneIncrease = (10 * parseFloat($('.farmerWorkforce').text()) * farmProdMod) + (10 * parseFloat($('.foodWorkforce').text()) * 0.5);
+		var foodIncrease = (10 * parseFloat($('.farmerWorkforce').text()) * farmProdMod) + (10 * parseFloat($('.foodWorkforce').text()) * 0.5);
 	}
 	
 	intervalCarrier = setInterval(function() {
