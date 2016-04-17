@@ -7,8 +7,10 @@
 		<script type="text/javascript" src="js/jquery-2.2.2.js"></script>
 		<script type="text/javascript" src="js/bootstrap.js"></script>
 
-		<script type="text/javascript" src="js/resourcesFunctionality.js"></script>
-		<script type="text/javascript" src="js/saveFunctionality.js"></script>
+		<script type="text/javascript" src="js/campaignInfoObj.js"></script>
+		<script type="text/javascript" src="js/resourcesFunctions.js"></script>
+		<script type="text/javascript" src="js/saveFunction.js"></script>
+		<script type="text/javascript" src="js/buildFunctions.js"></script>
 		
 		<title>Just a Game</title>
 
@@ -24,6 +26,10 @@
 
 			.fa-minus {
 				margin-right: 5px;
+			}
+
+			.btnBarracks, .btnHovel, .btnWoodHut, .btnQuarry, .btnFarm {
+				margin-top: 10px;
 			}
 
 			textarea {
@@ -134,21 +140,11 @@
 	        		</div>
 		        	<div class="modal-body">
 		          		<p>Select a build from the list</p>
-		      			<button class="btn" data-dismiss="modal" onclick="createBuilding('barracks')">
-		      				Barracks	
-		      			</button>
-		      			<button class="btn" data-dismiss="modal" onclick="createBuilding('hovels')">
-		      				Hovel
-		      			</button>
-		      			<button class="btn" data-dismiss="modal" onclick="createBuilding('woodHuts')">
-		      				Wood hut	
-		      			</button>
-		      			<button class="btn" data-dismiss="modal" onclick="createBuilding('quarry')">
-		      				Quarry	
-		      			</button>
-		      			<button class="btn" data-dismiss="modal" onclick="createBuilding('farms')">
-		      				Farm	
-		      			</button>
+		      			<button class="btn btnBarracks" data-dismiss="modal" onclick="createBuilding('barracks')"></button>
+		      			<button class="btn btnHovel" data-dismiss="modal" onclick="createBuilding('hovels')"></button>
+		      			<button class="btn btnWoodHut" data-dismiss="modal" onclick="createBuilding('woodHuts')"></button>
+		      			<button class="btn btnQuarry" data-dismiss="modal" onclick="createBuilding('quarry')"></button>
+		      			<button class="btn btnFarm" data-dismiss="modal" onclick="createBuilding('farms')"></button>
 		        	</div>
 		        	<div class="modal-footer">
 		        	  	<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -162,6 +158,7 @@
 		<script type="text/javascript">		
 			var intervalCarrier;
 			var boredText = "";
+			var buildingProdMod = 0;
 
 			var woodProdMod = 0;
 			var quarryProdMod = 0;
@@ -184,177 +181,7 @@
 				'villagers': 6
 			};
 
-			var campaignInfo = {
-				'playerName': '',
-				'playerAttr': {
-					'health': 100,
-					'atk': 5,
-					'def': 5
-				},
-				'baseInfo': {
-					'buildings': {
-						'hovels': {
-							'built' : 0,
-							'maxNumber': 5,
-							'buildingInfo': {
-								'buildingStats': {
-									'active': false,
-									'level': 0,
-									'productionBonus': 0,
-									'highestLvlUnit': 0
-								},								
-								'levelRequirements': [
-									{'gold': 100, 'wood': 50, 'stone': 0},
-									{'gold': 400, 'wood': 200, 'stone': 40},
-									{'gold': 800, 'wood': 400, 'stone': 80},
-									{'gold': 1600, 'wood': 800, 'stone': 160},
-									{'gold': 3200, 'wood': 1600, 'stone': 320}
-								],
-								'levelBonus': [
-									{'villagers': 5},
-									{'villagers': 7},
-									{'villagers': 10}
-								],
-								'builtStatus': [
-								]
-							}
-						},
-						'barracks': {
-							'built' : 0,
-							'maxNumber': 2,
-							'buildingInfo': {
-								'buildingStats': {
-									'active': false,
-									'level': 0,
-									'productionBonus': 0,
-									'highestLvlUnit': 0
-								},								
-								'levelRequirements': [
-									{'gold': 100, 'wood': 50, 'stone': 50},
-									{'gold': 1000, 'wood': 500, 'stone': 500}
-								],
-								'levelBonus': [
-									{'productionBonus': 0, 'highestLvlUnit': 0},
-									{'productionBonus': 0.2, 'highestLvlUnit': 1},
-									{'productionBonus': 0.5, 'highestLvlUnit': 2}
-								]
-							}
-						},
-						'woodHuts': {
-							'built' : 0,
-							'maxNumber': 2,
-							'buildingInfo': {
-								'buildingStats': {
-									'active': false,
-									'level': 0,
-									'productionBonus': 0,
-									'highestLvlUnit': 0
-								},								
-								'levelRequirements': [
-									{'gold': 100, 'wood': 50, 'stone': 0},
-									{'gold': 200, 'wood': 250, 'stone': 100},
-									{'gold': 400, 'wood': 1250, 'stone': 200},
-									{'gold': 800, 'wood': 6250, 'stone': 400},
-									{'gold': 1600, 'wood': 32250, 'stone': 800}
-								],
-								'levelBonus': [
-									{'productionBonus': 1, 'maxAllowedWorkers': 2},
-									{'productionBonus': 1.3, 'maxAllowedWorkers': 4},
-									{'productionBonus': 1.6, 'maxAllowedWorkers': 6},
-								],
-								'builtStatus': [									
-								]
-							}
-						},
-						'quarry': {
-							'built' : 0,
-							'maxNumber': 2,
-							'buildingInfo': {
-								'buildingStats': {
-									'active': false,
-									'level': 0,
-									'productionBonus': 0,
-									'highestLvlUnit': 0
-								},								
-								'levelRequirements': [
-									{'gold': 100, 'wood': 100, 'stone': 0},
-									{'gold': 200, 'wood': 500, 'stone': 100},
-									{'gold': 400, 'wood': 1000, 'stone': 200},
-									{'gold': 800, 'wood': 2000, 'stone': 400},
-									{'gold': 1600, 'wood': 4000, 'stone': 800}
-								],
-								'levelBonus': [
-									{'productionBonus': 1, 'maxAllowedWorkers': 2},
-									{'productionBonus': 1.3, 'maxAllowedWorkers': 4},
-									{'productionBonus': 1.6, 'maxAllowedWorkers': 6},
-								],
-								'builtStatus': [									
-								]
-							}
-						},
-						'farms': {
-							'built' : 0,
-							'maxNumber': 2,
-							'buildingInfo': {
-								'buildingStats': {
-									'active': false,
-									'level': 0,
-									'productionBonus': 0,
-									'highestLvlUnit': 0
-								},								
-								'levelRequirements': [
-									{'gold': 100, 'wood': 100, 'stone': 0},
-									{'gold': 200, 'wood': 500, 'stone': 100},
-									{'gold': 400, 'wood': 1000, 'stone': 200},
-									{'gold': 800, 'wood': 2000, 'stone': 400},
-									{'gold': 1600, 'wood': 4000, 'stone': 800}
-								],
-								'levelBonus': [
-									{'productionBonus': 1, 'maxAllowedWorkers': 2},
-									{'productionBonus': 1.3, 'maxAllowedWorkers': 4},
-									{'productionBonus': 1.6, 'maxAllowedWorkers': 6},
-								],
-								'builtStatus': [									
-								]
-							}
-						}
-					},
-					'units': {
-						'villager': {
-							'health': 10,
-							'atk': 2,
-							'def': 2
-						}
-					},
-					'jobs': {
-						'woodcutter': {
-							'healthMod': 1.8,
-							'atkMod': 1.8,
-							'defMod': 1.8
-						},
-						'stonecutter': {
-							'healthMod': 1.7,
-							'atkMod': 1.7,
-							'defMod': 1.7
-						},
-						'farmer': {
-							'healthMod': 1.5,
-							'atkMod': 1.5,
-							'defMod': 1.5
-						},
-						'military': {
-							'healthMod': 2,
-							'atkMod': 2,
-							'defMod': 2
-						},
-						'villager': {
-							'healthMod': 1,
-							'atkMod': 1,
-							'defMod': 1
-						}
-					}
-				}
-			}
+			
 
 			var loadedSession = '';
 
@@ -362,20 +189,45 @@
 
 				var workforce = parseFloat($('.woodWorkforce').text()) + parseFloat($('.stoneWorkforce').text()) + parseFloat($('.foodWorkforce').text());
 				
-				console.log($('div[data-building="WoodHut0"]').length);					
-
-				if($('div[data-building="WoodHut0"]').length > 0) {
-					
-					workforce = workforce + parseFloat($('div[data-building="WoodHut0"]').attr('data-workers'));
-					
+				if($('div[data-building="WoodHut0"]').length > 0) {					
+					workforce = workforce + parseFloat($('div[data-building="WoodHut0"]').attr('data-workers'));					
 				}
 
-				var test = campaignInfo.baseInfo.buildings.woodHuts.buildingInfo.builtStatus;
-				if(test.length > 0) {
-					for (var i =0; i < test.length; i++) {
-						workforce = workforce + test[i].currentlyWorking;
+				if($('div[data-building="Quarry0"]').length > 0) {					
+					workforce = workforce + parseFloat($('div[data-building="Quarry0"]').attr('data-workers'));					
+				}
+
+				if($('div[data-building="Farm0"]').length > 0) {					
+					workforce = workforce + parseFloat($('div[data-building="Farm0"]').attr('data-workers'));					
+				}
+
+
+				if(job == "woodCutter") {
+					var test = campaignInfo.baseInfo.buildings.woodHuts.buildingInfo.builtStatus;
+					if(test.length > 0) {
+						for (var i =0; i < test.length; i++) {
+							workforce = workforce + test[i].currentlyWorking;
+						}
 					}
 				}
+				
+				if(job == "stoneCutter") {
+					var test = campaignInfo.baseInfo.buildings.quarry.buildingInfo.builtStatus;
+					if(test.length > 0) {
+						for (var i =0; i < test.length; i++) {
+							workforce = workforce + test[i].currentlyWorking;
+						}
+					}
+				}
+				
+				if(job == "farmer") {
+					var test = campaignInfo.baseInfo.buildings.farms.buildingInfo.builtStatus;
+					if(test.length > 0) {
+						for (var i =0; i < test.length; i++) {
+							workforce = workforce + test[i].currentlyWorking;
+						}
+					}
+				}				
 
 				if (workforce < resources.villagers) {
 					addWorkforce(job, a);
@@ -405,6 +257,21 @@
 					workforce = $('.woodCutterWorkforce').text();					
 					workforce ++;
 					$('.woodCutterWorkforce').text(workforce);
+				}
+				if (job == 'stoneCutter') {
+					var stoneCutterWorkers = $(a).parent().attr('data-workers');					
+					$(a).parent().attr('data-workers', parseFloat(stoneCutterWorkers) + 1);
+					workforce = $('.stoneCutterWorkforce').text();					
+					workforce ++;
+					console.log(workforce);
+					$('.stoneCutterWorkforce').text(workforce);
+				}
+				if (job == 'Farmer') {
+					var Farmers = $(a).parent().attr('data-workers');					
+					$(a).parent().attr('data-workers', parseFloat(Farmers) + 1);
+					workforce = $('.FarmerWorkforce').text();
+					workforce ++;
+					$('.FarmerWorkforce').text(workforce);
 				}
 
 				clearInterval(intervalCarrier);
@@ -439,134 +306,23 @@
 					if(workforce > 0) {
 						workforce --;
 						$('.woodCutterWorkforce').text(workforce);
+					}
+				}
+				if (job == 'stoneCutter') {
+					workforce = $('.stoneCutterWorkforce').text();
+					if(workforce > 0) {
+						workforce --;
+						$('.stoneCutterWorkforce').text(workforce);
 					}					
 				}
-
-			}
-
-			function generateResources() {				
-				var farmsBuilt = 0;
-				var woodProdMod = 0;
-				var quarryProdMod = 0;
-				
-				woodProdMod = resourceProdMod('woodHuts');
-				quarryProdMod = resourceProdMod('quarry');
-				farmProdMod = resourceProdMod('farms');
-				
-				var goldIncrease = resources.villagers * 1;
-				var woodIncrease = (10 * parseFloat($('.woodWorkforce').text())) * woodProdMod;
-				var stoneIncrease = (10 * parseFloat($('.stoneWorkforce').text())) * quarryProdMod;
-				var foodIncrease = (10 * parseFloat($('.foodWorkforce').text())) * farmProdMod;
-
-				intervalCarrier = setInterval(function() {
-					resources.gold = resources.gold + goldIncrease;
-					resources.wood = resources.wood + woodIncrease;
-					resources.stone = resources.stone + stoneIncrease;
-					resources.food = resources.food + foodIncrease;
-					$('.playersGold').text(resources.gold);
-					$('.playersWood').text(resources.wood);
-					$('.playersStone').text(resources.stone);
-					$('.playersFood').text(resources.food);
-					$('.playersVillagers').text(resources.villagers);
-				//}, 5000);
-				}, 500);
-			}
-  			
-			function createBuilding(building) {				
-				//Check how many buildings of that kind are built
-				var buildingsBuilt = campaignInfo.baseInfo.buildings[building].built;
-				
-				//Maximum allowed buildings
-				var maxBuildingssAllowed = campaignInfo.baseInfo.buildings[building].maxNumber;
-
-				//Set the Level requirement variable (for cleared code)
-				var lvlRequirement = campaignInfo.baseInfo.buildings[building].buildingInfo.levelRequirements[0];
-
-				if (buildingsBuilt < maxBuildingssAllowed ) {
-
-					//Check if the stored materials are sufficient for the procedure
-					var sufficientGold = resources.gold >= lvlRequirement.gold;
-					var sufficientWood = resources.wood >= lvlRequirement.wood;
-					var sufficientStone = resources.stone >= lvlRequirement.stone;
-
-					//If the materials are sufficient then proceed to create the building and reduce the total materials
-					if ( sufficientGold && sufficientWood && sufficientStone ) {
-						var buildingVar = campaignInfo.baseInfo.buildings[building].buildingInfo.buildingStats;
-
-						buildingVar.active = true;
-						buildingVar.level = 1;
-
-						resources.gold = resources.gold - lvlRequirement.gold;
-						resources.wood = resources.wood - lvlRequirement.wood;
-						resources.stone = resources.stone - lvlRequirement.stone;
-
-						campaignInfo.baseInfo.buildings[building].built = campaignInfo.baseInfo.buildings[building].built + 1;
-						checkWhichBuilding(building);
-					}
-
-					//Notify the user that he needs more resources
-					else {
-						alert('Insufficient Resources');
-					}
+				if (job == 'farmer') {
+					workforce = $('.farmerWorkforce').text();
+					if(workforce > 0) {
+						workforce --;
+						$('.farmerWorkforce').text(workforce);
+					}					
 				}
-
-				//Notify the user that he can't have any more identical buildings
-				else {
-					alert("You can't have more buildings of that kind");
-				}
-			}
-
-			function checkWhichBuilding(building) {
 				clearInterval(intervalCarrier);
-				addBuildingToList(building);
-				/*if (building == 'barracks') {
-					var buildingStatsctive = campaignInfo.baseInfo.buildings[building].buildingInfo.buildingStats.active;
-					if(buildingStatsctive == true) {
-						$('.btnBarracks').css('display','block');
-					}
-				}*/
-			}
-
-			function resourceProdMod(building) {
-				var buildingBuilt = campaignInfo.baseInfo.buildings[building].built;
-				if (buildingBuilt == 1) {
-					buildingProdMod = campaignInfo.baseInfo.buildings[building].buildingInfo.levelBonus[0].productionBonus;
-				}
-				else if (buildingBuilt == 2) {
-					buildingProdModA = campaignInfo.baseInfo.buildings[building].buildingInfo.levelBonus[0].productionBonus;
-					buildingProdModB = campaignInfo.baseInfo.buildings[building].buildingInfo.levelBonus[0].productionBonus;
-					buildingProdMod = buildingProdModA + buildingProdModB;
-				}
-				else {
-					buildingProdMod = 0.5;
-				}
-				return buildingProdMod;
-			}
-
-			function addBuildingToList(building) {
-				var buildingName = "", jobName = "";
-				if(building == 'hovels') {
-					buildingName = "Hovel";
-					resources.villagers = resources.villagers + 5;
-				}
-				else if(building == 'woodHuts') {
-					buildingName = "Wood Hut"; 
-					jobName = "woodCutter";
-				}
-				else if(building == 'quarry') buildingName = 'Quarry';
-				else if(building == 'farms') buildingName = 'Farm';				
-				var totalBuildings = campaignInfo.baseInfo.buildings[building].buildingInfo.builtStatus;
-				var item = '<div data-building="' + buildingName.replace(" ", "") + totalBuildings.length + '" data-workers="0">' +
-							'<a>' + buildingName + '<span class="' + building + 'Lvl"> LvL 1</span></a>' +
-							
-								'<i class="fa fa-minus foodMinus" onclick="removeWorkforce(\'' + jobName + '\', this)"></i>' +
-								'<span id="" class="'+ jobName +'Workforce"> 0 </span>' +
-								'<i class="fa fa-plus foodPlus" onclick="calculateWorkforce(\'' + jobName + '\', this)"></i>' +	
-							'</div>';
-				var prod = campaignInfo.baseInfo.buildings[building].buildingInfo.levelBonus[0].productionBonus;
-				var index = {'level': 1, 'productionBonus': prod, 'currentlyWorking': 0};
-				totalBuildings.push(index);
-				$('.hovelList').append(item);				
 				generateResources();
 			}
 
@@ -575,6 +331,19 @@
 				
 				setInterval(function() {
 					var workforce = parseFloat($('.woodWorkforce').text()) + parseFloat($('.stoneWorkforce').text()) + parseFloat($('.foodWorkforce').text());
+
+				if($('div[data-building="WoodHut0"]').length > 0) {					
+					workforce = workforce + parseFloat($('div[data-building="WoodHut0"]').attr('data-workers'));					
+				}
+
+				if($('div[data-building="Quarry0"]').length > 0) {					
+					workforce = workforce + parseFloat($('div[data-building="Quarry0"]').attr('data-workers'));					
+				}
+
+				if($('div[data-building="Farm0"]').length > 0) {					
+					workforce = workforce + parseFloat($('div[data-building="Farm0"]').attr('data-workers'));					
+				}
+
 					if(workforce < resources.villagers) {
 						var boredCase = Math.floor(((Math.random() * 10) + 1) / 2);						
 						boredText = boredText + boredVillagers[boredCase] + '\n';
@@ -600,6 +369,7 @@
 
 				generateResources();
 				villagersFeedback();
+				showBuildingCosts();
 			});
 		</script>
 	</body>
