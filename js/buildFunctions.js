@@ -72,15 +72,15 @@ function addBuildingToList(building) {
 		jobName = "farmer";
 	}
 	var totalBuildings = campaignInfo.baseInfo.buildings[building].buildingInfo.builtStatus;
-	var item = '<div data-building="' + buildingName.replace(" ", "") + totalBuildings.length + '" data-workers="0">' +
-				'<a>' + buildingName + '<span class="' + building + 'Lvl"> LvL 1</span></a>' +
-				
+	var maxWorkers = campaignInfo.baseInfo.buildings[building].buildingInfo.levelBonus[0].maxAllowedWorkers;	
+	var item = '<div data-building="' + buildingName.replace(" ", "") + totalBuildings.length + '" data-workers="0" data-maxWorkers="' + maxWorkers + '" data-level="1">' +
+					'<a>' + buildingName + '<span class="' + building + 'Lvl"> LvL 1</span></a>' +				
 					'<i class="fa fa-minus foodMinus" onclick="removeWorkforce(\'' + jobName + '\', this)"></i>' +
 					'<span id="" class="'+ jobName +'Workforce"> 0 </span>' +
 					'<i class="fa fa-plus foodPlus" onclick="calculateWorkforce(\'' + jobName + '\', this)"></i>' +	
 				'</div>';
 	var prod = campaignInfo.baseInfo.buildings[building].buildingInfo.levelBonus[0].productionBonus;
-	var index = {'level': 1, 'productionBonus': prod, 'currentlyWorking': 0};
+	var index = {'level': 1, 'productionBonus': prod, 'currentlyWorking': 0, 'maxAllowedWorkers': maxWorkers};
 	totalBuildings.push(index);
 	$('.hovelList').append(item);				
 	generateResources();
