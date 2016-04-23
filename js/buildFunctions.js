@@ -54,7 +54,11 @@ function checkWhichBuilding(building) {
 }
 
 function addBuildingToList(building) {
+<<<<<<< HEAD
+	var buildingName = "", jobName = "", storage = "";
+=======
 	var buildingName = "", jobName = "";
+>>>>>>> origin/master
 	if(building == 'hovels') {
 		buildingName = "Hovel";
 		resources.villagers = resources.villagers + 5;
@@ -62,14 +66,26 @@ function addBuildingToList(building) {
 	else if(building == 'woodHuts') {
 		buildingName = "Wood Hut"; 
 		jobName = "woodCutter";
+<<<<<<< HEAD
+		resources.woodStorage += campaignInfo.baseInfo.buildings.woodHuts.buildingInfo.levelBonus[0].extraStorage;
+=======
+>>>>>>> origin/master
 	}
 	else if(building == 'quarry') {
 		buildingName = 'Quarry';
 		jobName = "stoneCutter";
+<<<<<<< HEAD
+		resources.stoneStorage += campaignInfo.baseInfo.buildings.quarry.buildingInfo.levelBonus[0].extraStorage;
+=======
+>>>>>>> origin/master
 	}
 	else if(building == 'farms') {
 		buildingName = 'Farm';
 		jobName = "farmer";
+<<<<<<< HEAD
+		resources.foodStorage += campaignInfo.baseInfo.buildings.farms.buildingInfo.levelBonus[0].extraStorage;
+=======
+>>>>>>> origin/master
 	}
 	var totalBuildings = campaignInfo.baseInfo.buildings[building].buildingInfo.builtStatus;
 	var maxWorkers = campaignInfo.baseInfo.buildings[building].buildingInfo.levelBonus[0].maxAllowedWorkers;	

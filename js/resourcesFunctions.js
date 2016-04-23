@@ -7,7 +7,11 @@ function generateResources() {
 	quarryProdMod = resourceProdMod('quarry');
 	farmProdMod = resourceProdMod('farms');
 	
+<<<<<<< HEAD
+	//var goldIncrease = resources.villagers * 1;
+=======
 	var goldIncrease = resources.villagers * 1;
+>>>>>>> origin/master
 
 	var woodHutBuilt = campaignInfo.baseInfo.buildings.woodHuts.buildingInfo.builtStatus;
 	var quarryBuilt = campaignInfo.baseInfo.buildings.quarry.buildingInfo.builtStatus;
@@ -35,6 +39,78 @@ function generateResources() {
 	}
 	
 	intervalCarrier = setInterval(function() {
+<<<<<<< HEAD
+		
+		if(resources.wood < resources.woodStorage) {
+			resources.wood = resources.wood + woodIncrease;
+			canWoodIncrease = true;
+			if(resources.wood >= resources.woodStorage) {
+				woodLost = resources.wood - resources.woodStorage;
+				resources.wood = resources.woodStorage;
+				canWoodIncrease = false;
+			}
+		}
+		if(resources.stone < resources.stoneStorage) {
+			resources.stone = resources.stone + stoneIncrease;
+			canStoneIncrease = true;
+			if(resources.stone >= resources.stoneStorage) {
+				stoneLost = resources.stone - resources.stoneStorage;
+				resources.stone = resources.stoneStorage;
+				canStoneIncrease = false;
+			}
+		}
+		if(resources.food < resources.foodStorage) {
+			resources.food = resources.food + foodIncrease;
+			if(resources.food >= resources.foodStorage) {
+				foodLost = resources.food - resources.foodStorage;
+				resources.food = resources.foodStorage;
+			}
+		}		
+
+		if(!canStoneIncrease) {
+			var stoneIncreaseMod = stoneIncrease - stoneLost;
+			stoneIncrease = 0;
+		}
+		else {
+			stoneIncreaseMod = stoneIncrease;			
+		}
+
+		if(!canWoodIncrease) {
+			var woodIncreaseMod = woodIncrease - woodLost;
+			woodIncrease = 0;
+		}
+		else {
+			woodIncreaseMod = woodIncrease;			
+		}
+
+
+		totalResources += stoneIncreaseMod + woodIncreaseMod;
+		woodLost = 0;
+		stoneLost = 0;		
+
+			if(totalResources >= 100) {
+			  	goldMultiplier = 0;
+			  	totalResourcesRemainder = totalResources % 100;
+			  	totalResources -= totalResourcesRemainder;
+			  	goldMultiplier = totalResources / 100;
+			  	resources.gold += (10 * goldMultiplier);
+			  	totalResources = totalResourcesRemainder;
+			 	console.log(totalResources + ' ' + totalResourcesRemainder + ' ' + goldMultiplier);
+			}
+			if(resources.gold >= resources.goldStorage)	{
+				resources.gold = resources.goldStorage;
+			}
+		
+
+		$('.playersGold').text(resources.gold + ' / ' + resources.goldStorage);
+		$('.playersWood').text(resources.wood + ' / ' + resources.woodStorage);
+		$('.playersStone').text(resources.stone + ' / ' + resources.stoneStorage);
+		$('.playersFood').text(resources.food + ' / ' + resources.foodStorage);
+		$('.playersVillagers').text(resources.villagers);
+		
+	}, 2000);
+	//}, 500);	
+=======
 
 		resources.gold = resources.gold + goldIncrease;
 		resources.wood = resources.wood + woodIncrease;
@@ -49,6 +125,7 @@ function generateResources() {
 		
 	//}, 5000);
 	}, 500);
+>>>>>>> origin/master
 }			
 
 function resourceProdMod(building) {
@@ -62,4 +139,8 @@ function resourceProdMod(building) {
 		buildingProdMod = buildingProdModA + buildingProdModB;
 	}	
 	return buildingProdMod;
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> origin/master
