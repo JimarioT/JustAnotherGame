@@ -65,10 +65,10 @@
 							<span>Base: </span> <span> A Name </span>
 						</div>-->
 						<div class="col-xs-12 goldCont">
-							<span class="col-xs-1">Gold: </span> <span class="col-xs-2 playersGold"> 0 </span>
+							<span class="col-xs-1">Gold: </span> <span class="col-xs-2 playersGold"> 0 / 200 </span>
 						</div>
 						<div class="col-xs-12 woodCont">
-							<span class="col-xs-1">Wood: </span> <span class="col-xs-2 playersWood"> 0 </span>
+							<span class="col-xs-1">Wood: </span> <span class="col-xs-2 playersWood"> 0 / 200 </span>
 							<div class="col-xs-4">
 								<i class="fa fa-minus woodMinus" onclick="removeWorkforce('wood')"></i>
 								<span class="woodWorkforce"> 0 </span>
@@ -77,7 +77,7 @@
 							</div>
 						</div>
 						<div class="col-xs-12 stoneCont">
-							<span class="col-xs-1">Stone: </span> <span class="col-xs-2 playersStone"> 0 </span>
+							<span class="col-xs-1">Stone: </span> <span class="col-xs-2 playersStone"> 0 / 200 </span>
 							<div class="col-xs-4">
 								<i class="fa fa-minus stoneMinus" onclick="removeWorkforce('stone')"></i>
 								<span class="stoneWorkforce"> 0 </span>
@@ -86,7 +86,7 @@
 							</div>							
 						</div>
 						<div class="col-xs-12 foodCont">
-							<span class="col-xs-1">Food: </span> <span class="col-xs-2 playersFood"> 0 </span>	
+							<span class="col-xs-1">Food: </span> <span class="col-xs-2 playersFood"> 0 / 200 </span>	
 							<div class="col-xs-4">
 								<i class="fa fa-minus foodMinus" onclick="removeWorkforce('food')"></i>
 								<span class="foodWorkforce"> 0 </span>
@@ -174,14 +174,28 @@
 			];
 
 			var resources = {
-				'gold' : 0 ,
+				'gold' : 100 ,
 				'wood': 0 ,
 				'stone': 0,
 				'food': 0,
+				'goldStorage' : 200 ,
+				'woodStorage': 200 ,
+				'stoneStorage': 200,
+				'foodStorage': 200,
 				'villagers': 6
 			};
 
+<<<<<<< HEAD
+			var totalResources = 0;
+			var goldMultiplier = 0;
+			var totalResourcesRemainder = 0;
+			var woodLost = 0;
+			var stoneLost = 0;
+			var canWoodIncrease;
+			var canStoneIncrease;
+=======
 			
+>>>>>>> origin/master
 
 			var loadedSession = '';
 
@@ -191,6 +205,12 @@
 				
 				if($('div[data-building="WoodHut0"]').length > 0) {					
 					workforce = workforce + parseFloat($('div[data-building="WoodHut0"]').attr('data-workers'));					
+<<<<<<< HEAD
+				}
+
+				if($('div[data-building="Quarry0"]').length > 0) {					
+					workforce = workforce + parseFloat($('div[data-building="Quarry0"]').attr('data-workers'));					
+=======
 				}
 
 				if($('div[data-building="Quarry0"]').length > 0) {					
@@ -209,6 +229,7 @@
 							workforce = workforce + test[i].currentlyWorking;
 						}
 					}
+>>>>>>> origin/master
 				}
 				
 				if(job == "stoneCutter") {
@@ -230,6 +251,10 @@
 					}
 				}*/				
 
+				if($('div[data-building="Farm0"]').length > 0) {					
+					workforce = workforce + parseFloat($('div[data-building="Farm0"]').attr('data-workers'));					
+				}
+			
 				if (workforce < resources.villagers) {
 					addWorkforce(job, a);
 				}				
@@ -257,9 +282,13 @@
 					var maxAllowed = $(a).parent().attr('data-maxworkers');					
 					if(woodCutterWorkers < maxAllowed) {
 						$(a).parent().attr('data-workers', parseFloat(woodCutterWorkers) + 1);
+<<<<<<< HEAD
+					}
+=======
 					}					
 					//workforce = $('.woodCutterWorkforce').text();					
 					//workforce ++;
+>>>>>>> origin/master
 					woodCutterWorkers = $(a).parent().attr('data-workers');
 					$('.woodCutterWorkforce').text(woodCutterWorkers);
 				}
@@ -269,9 +298,12 @@
 					if(stoneCutterWorkers < maxAllowed) {
 						$(a).parent().attr('data-workers', parseFloat(stoneCutterWorkers) + 1);
 					}
+<<<<<<< HEAD
+=======
 					
 					//workforce = $('.stoneCutterWorkforce').text();					
 					//workforce ++;
+>>>>>>> origin/master
 					stoneCutterWorkers = $(a).parent().attr('data-workers');
 					$('.stoneCutterWorkforce').text(stoneCutterWorkers);
 				}
@@ -280,9 +312,13 @@
 					var maxAllowed = $(a).parent().attr('data-maxworkers');	
 					if(farmers < maxAllowed) {
 						$(a).parent().attr('data-workers', parseFloat(farmers) + 1);
+<<<<<<< HEAD
+					}
+=======
 					}									
 					//workforce = $('.farmerWorkforce').text();
 					//workforce ++;
+>>>>>>> origin/master
 					farmers = $(a).parent().attr('data-workers');
 					$('.farmerWorkforce').text(farmers);
 				}
