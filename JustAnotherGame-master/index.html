@@ -65,10 +65,10 @@
 							<span>Base: </span> <span> A Name </span>
 						</div>-->
 						<div class="col-xs-12 goldCont">
-							<span class="col-xs-1">Gold: </span> <span class="col-xs-2 playersGold"> 0 </span>
+							<span class="col-xs-1">Gold: </span> <span class="col-xs-2 playersGold"> 0 / 200 </span>
 						</div>
 						<div class="col-xs-12 woodCont">
-							<span class="col-xs-1">Wood: </span> <span class="col-xs-2 playersWood"> 0 </span>
+							<span class="col-xs-1">Wood: </span> <span class="col-xs-2 playersWood"> 0 / 200 </span>
 							<div class="col-xs-4">
 								<i class="fa fa-minus woodMinus" onclick="removeWorkforce('wood')"></i>
 								<span class="woodWorkforce"> 0 </span>
@@ -77,7 +77,7 @@
 							</div>
 						</div>
 						<div class="col-xs-12 stoneCont">
-							<span class="col-xs-1">Stone: </span> <span class="col-xs-2 playersStone"> 0 </span>
+							<span class="col-xs-1">Stone: </span> <span class="col-xs-2 playersStone"> 0 / 200 </span>
 							<div class="col-xs-4">
 								<i class="fa fa-minus stoneMinus" onclick="removeWorkforce('stone')"></i>
 								<span class="stoneWorkforce"> 0 </span>
@@ -86,7 +86,7 @@
 							</div>							
 						</div>
 						<div class="col-xs-12 foodCont">
-							<span class="col-xs-1">Food: </span> <span class="col-xs-2 playersFood"> 0 </span>	
+							<span class="col-xs-1">Food: </span> <span class="col-xs-2 playersFood"> 0 / 200 </span>	
 							<div class="col-xs-4">
 								<i class="fa fa-minus foodMinus" onclick="removeWorkforce('food')"></i>
 								<span class="foodWorkforce"> 0 </span>
@@ -174,14 +174,24 @@
 			];
 
 			var resources = {
-				'gold' : 0 ,
+				'gold' : 100 ,
 				'wood': 0 ,
 				'stone': 0,
 				'food': 0,
+				'goldStorage' : 200 ,
+				'woodStorage': 200 ,
+				'stoneStorage': 200,
+				'foodStorage': 200,
 				'villagers': 6
 			};
 
-			
+			var totalResources = 0;
+			var goldMultiplier = 0;
+			var totalResourcesRemainder = 0;
+			var woodLost = 0;
+			var stoneLost = 0;
+			var canWoodIncrease;
+			var canStoneIncrease;
 
 			var loadedSession = '';
 
@@ -200,36 +210,7 @@
 				if($('div[data-building="Farm0"]').length > 0) {					
 					workforce = workforce + parseFloat($('div[data-building="Farm0"]').attr('data-workers'));					
 				}
-
-
-				/*if(job == "woodCutter") {
-					var test = campaignInfo.baseInfo.buildings.woodHuts.buildingInfo.builtStatus;
-					if(test.length > 0) {
-						for (var i =0; i < test.length; i++) {
-							workforce = workforce + test[i].currentlyWorking;
-						}
-					}
-				}
-				
-				if(job == "stoneCutter") {
-					var test = campaignInfo.baseInfo.buildings.quarry.buildingInfo.builtStatus;
-					if(test.length > 0) {
-						for (var i =0; i < test.length; i++) {
-							workforce = workforce + test[i].currentlyWorking;
-						}
-					}
-				}
-				
-				if(job == "farmer") {
-					console.log('1');
-					var test = campaignInfo.baseInfo.buildings.farms.buildingInfo.builtStatus;					
-					if(test.length > 0) {
-						for (var i =0; i < test.length; i++) {
-							workforce = workforce + test[i].currentlyWorking;
-						}
-					}
-				}*/				
-
+			
 				if (workforce < resources.villagers) {
 					addWorkforce(job, a);
 				}				
