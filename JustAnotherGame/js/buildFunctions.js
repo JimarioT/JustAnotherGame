@@ -79,7 +79,7 @@ function addBuildingToList(building) {
 		//buildingName = quarrySetup.buildingName;
 		//jobName = quarrySetup.jobName;
 		//extraStorage = campaignInfo.baseInfo.buildings[building].buildingInfo.levelBonus[0].extraStorage;
-		resources[quarrySetup.storage] += extraStorage;
+		//resources[quarrySetup.storage] += extraStorage;
 	}
 	else if(building == 'farms') {
 		buildingName = 'Farm';
