@@ -192,6 +192,7 @@
 			var stoneLost = 0;
 			var canWoodIncrease;
 			var canStoneIncrease;
+			var extraStorage = 0;
 
 			var loadedSession = '';
 
@@ -238,9 +239,7 @@
 					var maxAllowed = $(a).parent().attr('data-maxworkers');					
 					if(woodCutterWorkers < maxAllowed) {
 						$(a).parent().attr('data-workers', parseFloat(woodCutterWorkers) + 1);
-					}					
-					//workforce = $('.woodCutterWorkforce').text();					
-					//workforce ++;
+					}
 					woodCutterWorkers = $(a).parent().attr('data-workers');
 					$('.woodCutterWorkforce').text(woodCutterWorkers);
 				}
@@ -250,9 +249,6 @@
 					if(stoneCutterWorkers < maxAllowed) {
 						$(a).parent().attr('data-workers', parseFloat(stoneCutterWorkers) + 1);
 					}
-					
-					//workforce = $('.stoneCutterWorkforce').text();					
-					//workforce ++;
 					stoneCutterWorkers = $(a).parent().attr('data-workers');
 					$('.stoneCutterWorkforce').text(stoneCutterWorkers);
 				}
@@ -261,9 +257,7 @@
 					var maxAllowed = $(a).parent().attr('data-maxworkers');	
 					if(farmers < maxAllowed) {
 						$(a).parent().attr('data-workers', parseFloat(farmers) + 1);
-					}									
-					//workforce = $('.farmerWorkforce').text();
-					//workforce ++;
+					}		
 					farmers = $(a).parent().attr('data-workers');
 					$('.farmerWorkforce').text(farmers);
 				}

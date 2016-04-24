@@ -21,10 +21,10 @@ function generateResources() {
 	}
 
 	if(quarryBuilt == 0) {
-		var stoneIncrease = (10 * parseFloat($('.stoneWorkforce').text())) * 0.5;
+		var stoneIncrease = (10 * parseFloat($('.stoneWorkforce').text())) * 0.5;		
 	}
 	else {
-		var stoneIncrease = (10 * parseFloat($('.stoneCutterWorkforce').text()) * quarryProdMod) + (10 * parseFloat($('.woodWorkforce').text()) * 0.5);
+		var stoneIncrease = (10 * parseFloat($('.stoneCutterWorkforce').text()) * quarryProdMod) + (10 * parseFloat($('.stoneWorkforce').text()) * 0.5);		
 	}
 	
 	if(farmBuilt == 0) {
@@ -89,8 +89,7 @@ function generateResources() {
 			  	totalResources -= totalResourcesRemainder;
 			  	goldMultiplier = totalResources / 100;
 			  	resources.gold += (10 * goldMultiplier);
-			  	totalResources = totalResourcesRemainder;
-			 	console.log(totalResources + ' ' + totalResourcesRemainder + ' ' + goldMultiplier);
+			  	totalResources = totalResourcesRemainder;			 	
 			}
 			if(resources.gold >= resources.goldStorage)	{
 				resources.gold = resources.goldStorage;
