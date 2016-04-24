@@ -62,15 +62,40 @@ function addBuildingToList(building) {
 	else if(building == 'woodHuts') {
 		buildingName = "Wood Hut"; 
 		jobName = "woodCutter";
+		extraStorage = campaignInfo.baseInfo.buildings.woodHuts.buildingInfo.levelBonus[0].extraStorage;
+		resources.woodStorage += extraStorage;
+		//var woodSetup = {'buildingName':'Wood Hut','jobName':'woodCutter','storage':'woodStorage'};
+		//buildingName = woodSetup.buildingName;
+		//jobName = woodSetup.jobName;
+		//extraStorage = campaignInfo.baseInfo.buildings[building].buildingInfo.levelBonus[0].extraStorage;
+		//resources[woodSetup.storage] += extraStorage;
 	}
 	else if(building == 'quarry') {
 		buildingName = 'Quarry';
 		jobName = "stoneCutter";
+		extraStorage = campaignInfo.baseInfo.buildings.quarry.buildingInfo.levelBonus[0].extraStorage;
+		resources.stoneStorage += extraStorage;
+		//var quarrySetup = {'buildingName':'Quarry','jobName':'stoneCutter','storage':'stoneStorage'};
+		//buildingName = quarrySetup.buildingName;
+		//jobName = quarrySetup.jobName;
+		//extraStorage = campaignInfo.baseInfo.buildings[building].buildingInfo.levelBonus[0].extraStorage;
+		resources[quarrySetup.storage] += extraStorage;
 	}
 	else if(building == 'farms') {
 		buildingName = 'Farm';
 		jobName = "farmer";
+		extraStorage = campaignInfo.baseInfo.buildings.farms.buildingInfo.levelBonus[0].extraStorage;
+		resources.foodStorage += extraStorage;
+		//var farmSetup = {'buildingName':'Farm','jobName':'farmer','storage':'foodStorage'};
+		//buildingName = farmSetup.buildingName;
+		//jobName = farmSetup.jobName;
+		//extraStorage = campaignInfo.baseInfo.buildings[building].buildingInfo.levelBonus[0].extraStorage;
+		//resources[farmSetup.storage] += extraStorage;
 	}
+
+		
+
+
 	var totalBuildings = campaignInfo.baseInfo.buildings[building].buildingInfo.builtStatus;
 	var maxWorkers = campaignInfo.baseInfo.buildings[building].buildingInfo.levelBonus[0].maxAllowedWorkers;	
 	var item = '<div data-building="' + buildingName.replace(" ", "") + totalBuildings.length + '" data-workers="0" data-maxWorkers="' + maxWorkers + '" data-level="1">' +
@@ -80,9 +105,14 @@ function addBuildingToList(building) {
 					'<i class="fa fa-plus foodPlus" onclick="calculateWorkforce(\'' + jobName + '\', this)"></i>' +	
 				'</div>';
 	var prod = campaignInfo.baseInfo.buildings[building].buildingInfo.levelBonus[0].productionBonus;
-	var index = {'level': 1, 'productionBonus': prod, 'currentlyWorking': 0, 'maxAllowedWorkers': maxWorkers};
+	var index = {'level': 1, 'productionBonus': prod, 'currentlyWorking': 0, 'maxAllowedWorkers': maxWorkers};	
 	totalBuildings.push(index);
-	$('.hovelList').append(item);				
+	$('.hovelList').append(item);		
+	$('.playersGold').text(resources.gold + ' / ' + resources.goldStorage);
+	$('.playersWood').text(resources.wood + ' / ' + resources.woodStorage);
+	$('.playersStone').text(resources.stone + ' / ' + resources.stoneStorage);
+	$('.playersFood').text(resources.food + ' / ' + resources.foodStorage);
+	$('.playersVillagers').text(resources.villagers);		
 	generateResources();
 }
 
