@@ -57,11 +57,13 @@ function addBuildingToList(building) {
 	var buildingName = "", jobName = "";
 	if(building == 'hovels') {
 		buildingName = "Hovel";
+		jobName = "";
 		resources.villagers = resources.villagers + 5;
 	}
 	else if(building == 'woodHuts') {
 		buildingName = "Wood Hut"; 
 		jobName = "woodCutter";
+		maxWorkers = campaignInfo.baseInfo.buildings[building].buildingInfo.levelBonus[0].maxAllowedWorkers;
 		extraStorage = campaignInfo.baseInfo.buildings.woodHuts.buildingInfo.levelBonus[0].extraStorage;
 		resources.woodStorage += extraStorage;
 		//var woodSetup = {'buildingName':'Wood Hut','jobName':'woodCutter','storage':'woodStorage'};
@@ -73,6 +75,7 @@ function addBuildingToList(building) {
 	else if(building == 'quarry') {
 		buildingName = 'Quarry';
 		jobName = "stoneCutter";
+		maxWorkers = campaignInfo.baseInfo.buildings[building].buildingInfo.levelBonus[0].maxAllowedWorkers;
 		extraStorage = campaignInfo.baseInfo.buildings.quarry.buildingInfo.levelBonus[0].extraStorage;
 		resources.stoneStorage += extraStorage;
 		//var quarrySetup = {'buildingName':'Quarry','jobName':'stoneCutter','storage':'stoneStorage'};
@@ -84,6 +87,7 @@ function addBuildingToList(building) {
 	else if(building == 'farms') {
 		buildingName = 'Farm';
 		jobName = "farmer";
+		maxWorkers = campaignInfo.baseInfo.buildings[building].buildingInfo.levelBonus[0].maxAllowedWorkers;
 		extraStorage = campaignInfo.baseInfo.buildings.farms.buildingInfo.levelBonus[0].extraStorage;
 		resources.foodStorage += extraStorage;
 		//var farmSetup = {'buildingName':'Farm','jobName':'farmer','storage':'foodStorage'};
@@ -92,12 +96,13 @@ function addBuildingToList(building) {
 		//extraStorage = campaignInfo.baseInfo.buildings[building].buildingInfo.levelBonus[0].extraStorage;
 		//resources[farmSetup.storage] += extraStorage;
 	}
-
-		
-
-
+	else if(building == 'barracks') {
+		buildingName = 'Barracks';
+		jobName = "";		
+	}
+	
 	var totalBuildings = campaignInfo.baseInfo.buildings[building].buildingInfo.builtStatus;
-	var maxWorkers = campaignInfo.baseInfo.buildings[building].buildingInfo.levelBonus[0].maxAllowedWorkers;	
+	
 	var item = '<div data-building="' + buildingName.replace(" ", "") + totalBuildings.length + '" data-workers="0" data-maxWorkers="' + maxWorkers + '" data-level="1">' +
 					'<a>' + buildingName + '<span class="' + building + 'Lvl"> LvL 1</span></a>' +				
 					'<i class="fa fa-minus foodMinus" onclick="removeWorkforce(\'' + jobName + '\', this)"></i>' +
