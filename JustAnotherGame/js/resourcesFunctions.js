@@ -95,6 +95,7 @@ function generateResources() {
 				resources.gold = resources.goldStorage;
 			}
 		
+		feedTheVillage();
 
 		$('.playersGold').text(resources.gold + ' / ' + resources.goldStorage);
 		$('.playersWood').text(resources.wood + ' / ' + resources.woodStorage);

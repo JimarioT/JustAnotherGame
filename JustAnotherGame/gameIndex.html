@@ -122,7 +122,12 @@
 							<div class="col-xs-6">
 								<button class="btn" data-toggle="modal" data-target="#buildingModal">Create Building</button>
 							</div>
-							<div class="col-xs-6"></div>
+							<div class="col-xs-6">
+								<button class="btn">Read the story (Beta)</button>
+							</div>
+							<div class="col-xs-12 text-right">
+								Version: <span class="version"></span>
+							</div>
 						</div>
 					</div>					
 				</div>
@@ -177,12 +182,13 @@
 				'gold' : 100 ,
 				'wood': 0 ,
 				'stone': 0,
-				'food': 0,
+				'food': 100,
 				'goldStorage' : 200 ,
 				'woodStorage': 200 ,
 				'stoneStorage': 200,
 				'foodStorage': 200,
-				'villagers': 6
+				'foodRations': 1,
+				'villagers': 5
 			};
 
 			var totalResources = 0;
@@ -196,6 +202,7 @@
 			var maxWorkers = 0;
 
 			var loadedSession = '';
+			var introStory = "You live in a world where names are not important, only actions, and thus you strive all your life to be something. After years of training, injuries, stubbornness, and faith, you manage to become one of the greatest generals in your country. For a few months you enjoy the results of your hard work until a messenger arrives. He handles you a letter and leaves. You open the letter and you read your first assignment. Join your fellow countrymen in battle and help them win. Your country was always rich with resources, something that made your neighbors jealous, everyone knew that ... War wasn't far. And now, is the time to fight. You get your battalion and march, with first target your outpost just behind the battlefield. When you reach the outpost you see something inconceivable … Everyone is dead!! You command your troops to be ready for everything and move forward with a bad feeling lingering in your guts. 'DEATH TO OUR ENEMIES' yelled a voice and it was the last thing you remember. You wake up 1 week later inside a hut, and the first thing you see is a villager watching over you. He sees that you are awake and rushes to check up on you while yelling to someone that you are awake. Five people come in the hut. You try to speak while being totally dizzy but when you try to move your jaw pain runs through your spine. One of the villagers speaks with haste explaining you what happened one week ago. Double-cross, someone has betrayed our country and allowed to the enemy to get in our outpost. When you arrived there you were the first to get attacked by some freakishly fast warrior who broke your jaw. You fell on the ground and your battalion’s soldiers who fought back were either killed or captured by the enemy. After the attack, the enemy, destroyed and then  abandoned the outpost moving closer to your capital. A few captured villagers who were imprisoned in the outpost and left for dead, managed to escape and found you in bad shape, but alive. They kept you alive and nursed you back to 'health'. 'There are many wondering countrymen of ours and they are hiding from our enemies. We need you to fix this. You HAVE to fix this'.";
 
 			function calculateWorkforce(job, a) {
 
@@ -359,6 +366,11 @@
 				}, 10000);				
 			}
 
+			function feedTheVillage() {				
+				reduceFood = (resources.villagers * resources.foodRations) + 1;
+				resources.food -= reduceFood;
+			}
+
 			$(document).ready(function() {
 				//navigator.webkitPersistentStorage.requestQuota(1024*1024, function() {
  				//	window.webkitRequestFileSystem(window.PERSISTENT , 1024*1024, SaveDatFileBro);
@@ -367,6 +379,8 @@
 				generateResources();
 				villagersFeedback();
 				showBuildingCosts();
+
+				$('.version').text('0.5');
 			});
 		</script>
 	</body>

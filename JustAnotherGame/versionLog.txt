@@ -1,0 +1,7 @@
+Version 0.5
+>>> Added version number info
+>>> Added "Read the Story" button
+>>> Added the intro story
+>>> Food is now reduced by the number of villagers (plus the main char)
+>>> Added on the campaignInfo obj the required time to create a building
+>>> Added on the campaignInfo obj the required workers to create a building
