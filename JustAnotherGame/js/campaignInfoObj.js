@@ -51,6 +51,8 @@ var campaignInfo = {
 						{'productionBonus': 0, 'highestLvlUnit': 0},
 						{'productionBonus': 0.2, 'highestLvlUnit': 1},
 						{'productionBonus': 0.5, 'highestLvlUnit': 2}
+					],
+					'builtStatus': [
 					]
 				}
 			},
