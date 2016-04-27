@@ -5,3 +5,6 @@ Version 0.5
 >>> Food is now reduced by the number of villagers (plus the main char)
 >>> Added on the campaignInfo obj the required time to create a building
 >>> Added on the campaignInfo obj the required workers to create a building
+
+Version 0.5.2
+>>> Added progress bar prion to buildin completion
