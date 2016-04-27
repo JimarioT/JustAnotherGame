@@ -109,10 +109,38 @@ function addBuildingToList(building) {
 					'<span id="" class="'+ jobName +'Workforce"> 0 </span>' +
 					'<i class="fa fa-plus foodPlus" onclick="calculateWorkforce(\'' + jobName + '\', this)"></i>' +	
 				'</div>';
+
+	var itemPreparing = '<div class="progress">' + 
+							'<div class="' + buildingName.replace(" ", "") + totalBuildings.length + '-progress-bar progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">' + 								
+							'</div>' + 
+						'</div>';
+
 	var prod = campaignInfo.baseInfo.buildings[building].buildingInfo.levelBonus[0].productionBonus;
-	var index = {'level': 1, 'productionBonus': prod, 'currentlyWorking': 0, 'maxAllowedWorkers': maxWorkers};	
-	totalBuildings.push(index);
-	$('.hovelList').append(item);		
+	var index = {'level': 1, 'productionBonus': prod, 'currentlyWorking': 0, 'maxAllowedWorkers': maxWorkers};
+
+	var timeRequired = campaignInfo.baseInfo.buildings[building].buildingInfo.levelBonus[0].timeRquired;
+	var percentageSteps = 100 / timeRequired;
+	$('.hovelList').append(itemPreparing);
+	var timePassed = 0;
+	var percentageTotal = 0;
+	
+	var buildInterval = setInterval(function() {
+		if(timePassed < timeRequired) {
+			timePassed++;
+			percentageTotal += percentageSteps;			
+			$('.' + buildingName.replace(" ", "") + totalBuildings.length + '-progress-bar').css('width', parseInt(percentageTotal) + '%');
+			$('.' + buildingName.replace(" ", "") + totalBuildings.length + '-progress-bar').attr('aria-valuenow', parseInt(percentageTotal));
+			$('.' + buildingName.replace(" ", "") + totalBuildings.length + '-progress-bar').text(parseInt(percentageTotal) + '%');			
+		}
+		else {
+			clearInterval(buildInterval);
+			$('.hovelList').empty();
+			totalBuildings.push(index);
+			$('.hovelList').append(item);		
+		}
+	}, 1000);
+
+	
 	$('.playersGold').text(resources.gold + ' / ' + resources.goldStorage);
 	$('.playersWood').text(resources.wood + ' / ' + resources.woodStorage);
 	$('.playersStone').text(resources.stone + ' / ' + resources.stoneStorage);

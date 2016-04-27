@@ -48,7 +48,7 @@ var campaignInfo = {
 						{'gold': 1000, 'wood': 500, 'stone': 500}
 					],
 					'levelBonus': [
-						{'productionBonus': 0, 'highestLvlUnit': 0},
+						{'productionBonus': 0, 'highestLvlUnit': 0, 'timeRquired': 60, 'workersRequired': 4},
 						{'productionBonus': 0.2, 'highestLvlUnit': 1},
 						{'productionBonus': 0.5, 'highestLvlUnit': 2}
 					],
@@ -74,7 +74,7 @@ var campaignInfo = {
 						{'gold': 1600, 'wood': 32250, 'stone': 800}
 					],
 					'levelBonus': [
-						{'productionBonus': 1, 'maxAllowedWorkers': 2, 'extraStorage': 200},
+						{'productionBonus': 1, 'maxAllowedWorkers': 2, 'extraStorage': 200, 'timeRquired': 60, 'workersRequired': 2},
 						{'productionBonus': 1.3, 'maxAllowedWorkers': 4, 'extraStorage': 400},
 						{'productionBonus': 1.6, 'maxAllowedWorkers': 6, 'extraStorage': 800},
 					],
@@ -100,7 +100,7 @@ var campaignInfo = {
 						{'gold': 1600, 'wood': 4000, 'stone': 800}
 					],
 					'levelBonus': [
-						{'productionBonus': 1, 'maxAllowedWorkers': 2, 'extraStorage': 200},
+						{'productionBonus': 1, 'maxAllowedWorkers': 2, 'extraStorage': 200, 'timeRquired': 60, 'workersRequired': 2},
 						{'productionBonus': 1.3, 'maxAllowedWorkers': 4, 'extraStorage': 400},
 						{'productionBonus': 1.6, 'maxAllowedWorkers': 6, 'extraStorage': 800},
 					],
@@ -126,7 +126,7 @@ var campaignInfo = {
 						{'gold': 1600, 'wood': 4000, 'stone': 800}
 					],
 					'levelBonus': [
-						{'productionBonus': 1, 'maxAllowedWorkers': 2, 'extraStorage': 200},
+						{'productionBonus': 1, 'maxAllowedWorkers': 2, 'extraStorage': 200, 'timeRquired': 60, 'workersRequired': 2},
 						{'productionBonus': 1.3, 'maxAllowedWorkers': 4, 'extraStorage': 400},
 						{'productionBonus': 1.6, 'maxAllowedWorkers': 6, 'extraStorage': 800},
 					],
