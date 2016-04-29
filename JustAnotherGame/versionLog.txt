@@ -7,4 +7,12 @@ Version 0.5
 >>> Added on the campaignInfo obj the required workers to create a building
 
 Version 0.5.2
->>> Added progress bar prion to buildin completion
+>>> Added progress bar prion to building completion
+
+Version 0.5.3
+>>> Free villagers will be required for creating new buildings
+>>> If the building to be created is a resource building then, the needed builders will be substructed from the respecting free resource type workforce
+>>> The resources info is now in one line
+>>> Added a title to the idle villagers chat area
+>>> Lowered the height of the idle villagers chat area
+>>> Now the players can read the intro story
