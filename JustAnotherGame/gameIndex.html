@@ -32,8 +32,25 @@
 				margin-top: 10px;
 			}
 
+			.progress {
+				width:50px;
+			}
+
+			.storyInfo {
+				position: absolute;
+				top: 5%;
+				left: 15%;
+				width: 70%;				
+				height: 800px;
+				border: solid black 1px;
+				background-color: white;
+				display: none;		
+				transition: height 2s;
+				overflow-y: hidden;
+			}
+
 			textarea {
-				height: 400px;
+				height: 200px;
 			}
 		</style>
 
@@ -61,41 +78,40 @@
 			<div class="container">
 				<div class="row text-left">
 					<div class="col-xs-12">
-						<!--<div class="col-md-3">
-							<span>Base: </span> <span> A Name </span>
-						</div>-->
-						<div class="col-xs-12 goldCont">
-							<span class="col-xs-1">Gold: </span> <span class="col-xs-2 playersGold"> 0 / 200 </span>
+						<div class="col-xs-3 goldCont">
+							<div>
+								<span>Gold: </span> <span class="playersGold"> 0 / 200 </span>
+							</div>
+							<div>
+								<span>Villagers: </span> <span class="playersVillagers"> 0 </span>	
+							</div>
 						</div>
-						<div class="col-xs-12 woodCont">
-							<span class="col-xs-1">Wood: </span> <span class="col-xs-2 playersWood"> 0 / 200 </span>
-							<div class="col-xs-4">
+						<div class="col-xs-3 woodCont">
+							<span>Wood: </span> <span class="playersWood"> 0 / 200 </span>
+							<div class="col-xs-12">
 								<i class="fa fa-minus woodMinus" onclick="removeWorkforce('wood')"></i>
 								<span class="woodWorkforce"> 0 </span>
 								<i class="fa fa-plus woodPlus" onclick="calculateWorkforce('wood')"></i>								
-								<span>Working Villager(s)</span>
 							</div>
 						</div>
-						<div class="col-xs-12 stoneCont">
-							<span class="col-xs-1">Stone: </span> <span class="col-xs-2 playersStone"> 0 / 200 </span>
-							<div class="col-xs-4">
+						<div class="col-xs-3 stoneCont">
+							<span>Stone: </span> <span class="playersStone"> 0 / 200 </span>
+							<div class="col-xs-12">
 								<i class="fa fa-minus stoneMinus" onclick="removeWorkforce('stone')"></i>
 								<span class="stoneWorkforce"> 0 </span>
 								<i class="fa fa-plus stonePlus" onclick="calculateWorkforce('stone')"></i>								
-								<span>Working Villager(s)</span>
 							</div>							
 						</div>
-						<div class="col-xs-12 foodCont">
-							<span class="col-xs-1">Food: </span> <span class="col-xs-2 playersFood"> 0 / 200 </span>	
-							<div class="col-xs-4">
+						<div class="col-xs-3 foodCont">
+							<span>Food: </span> <span class="playersFood"> 0 / 200 </span>	
+							<div class="col-xs-12">
 								<i class="fa fa-minus foodMinus" onclick="removeWorkforce('food')"></i>
 								<span class="foodWorkforce"> 0 </span>
 								<i class="fa fa-plus foodPlus" onclick="calculateWorkforce('food')"></i>								
-								<span>Working Villager(s)</span>
 							</div>
 						</div>
 						<div class="col-xs-12">
-							<span class="col-xs-1">Villagers: </span> <span class="col-xs-2 playersVillagers"> 0 </span>	
+							
 						</div>
 						<div class="col-xs-4">
 							<div class="row hovelList">
@@ -103,6 +119,7 @@
 							</div>
 						</div>
 						<div class="col-xs-5 col-xs-offset-7">
+							<span class="col-xs-12">Idle villager(s) chat</span>
 							<textarea class="col-xs-10 col-xs-offset-1"></textarea>
 						</div>
 						
@@ -123,7 +140,7 @@
 								<button class="btn" data-toggle="modal" data-target="#buildingModal">Create Building</button>
 							</div>
 							<div class="col-xs-6">
-								<button class="btn">Read the story (Beta)</button>
+								<button class="btn" onclick="readTheMainStory()">Read the story (Active)</button>
 							</div>
 							<div class="col-xs-12 text-right">
 								Version: <span class="version"></span>
@@ -157,17 +174,21 @@
 		        </div>
 		    </div>
       	</div>
-      
-   
+
+      	<div class="storyInfo"></div>
 
 		<script type="text/javascript">		
 			var intervalCarrier;
+			var availableWorkers;
+			var canBuilt;
 			var boredText = "";
 			var buildingProdMod = 0;
 
 			var woodProdMod = 0;
 			var quarryProdMod = 0;
 			var farmProdMod = 0;
+
+			var builders = 0;
 
 			var boredVillagers = [
 				"*Hey boss, it's a tad boring over here! Let me help!*",
@@ -202,11 +223,15 @@
 			var maxWorkers = 0;
 
 			var loadedSession = '';
-			var introStory = "You live in a world where names are not important, only actions, and thus you strive all your life to be something. After years of training, injuries, stubbornness, and faith, you manage to become one of the greatest generals in your country. For a few months you enjoy the results of your hard work until a messenger arrives. He handles you a letter and leaves. You open the letter and you read your first assignment. Join your fellow countrymen in battle and help them win. Your country was always rich with resources, something that made your neighbors jealous, everyone knew that ... War wasn't far. And now, is the time to fight. You get your battalion and march, with first target your outpost just behind the battlefield. When you reach the outpost you see something inconceivable … Everyone is dead!! You command your troops to be ready for everything and move forward with a bad feeling lingering in your guts. 'DEATH TO OUR ENEMIES' yelled a voice and it was the last thing you remember. You wake up 1 week later inside a hut, and the first thing you see is a villager watching over you. He sees that you are awake and rushes to check up on you while yelling to someone that you are awake. Five people come in the hut. You try to speak while being totally dizzy but when you try to move your jaw pain runs through your spine. One of the villagers speaks with haste explaining you what happened one week ago. Double-cross, someone has betrayed our country and allowed to the enemy to get in our outpost. When you arrived there you were the first to get attacked by some freakishly fast warrior who broke your jaw. You fell on the ground and your battalion’s soldiers who fought back were either killed or captured by the enemy. After the attack, the enemy, destroyed and then  abandoned the outpost moving closer to your capital. A few captured villagers who were imprisoned in the outpost and left for dead, managed to escape and found you in bad shape, but alive. They kept you alive and nursed you back to 'health'. 'There are many wondering countrymen of ours and they are hiding from our enemies. We need you to fix this. You HAVE to fix this'.";
+			var introStoryP1 = "You live in a world where names are not important, only actions, and thus you strive all your life to be something. After years of training, injuries, stubbornness, and faith, you manage to become one of the greatest generals in your country. For a few months you enjoy the results of your hard work until a messenger arrives. He handles you a letter and leaves. You open the letter and you read your first assignment. Join your fellow countrymen in battle and help them win. Your country was always rich with resources, something that made your neighbors jealous, everyone knew that ... War wasn't far. And now, is the time to fight.";
+			var introStoryP2 = "You get your battalion and march, with first target your outpost just behind the battlefield. When you reach the outpost you see something inconceivable . . . Everyone is dead!! You command your troops to be ready for everything and move forward with a bad feeling lingering in your guts. 'DEATH TO OUR ENEMIES' yelled a voice and it was the last thing you remember.";
+			var introStoryP3 = "You wake up 1 week later inside a hut, and the first thing you see is a villager watching over you. He sees that you are awake and rushes to check up on you while yelling to someone that you are awake. Five people come in the hut. You try to speak while being totally dizzy but when you try to move your jaw pain runs through your spine. One of the villagers speaks with haste explaining you what happened one week ago. Double-cross, someone has betrayed our country and allowed to the enemy to get in our outpost. When you arrived there you were the first to get attacked by some freakishly fast warrior who broke your jaw. You fell on the ground and your battalion's soldiers who fought back were either killed or captured by the enemy. After the attack, the enemy, destroyed and then  abandoned the outpost moving closer to your capital. A few captured villagers who were imprisoned in the outpost and left for dead, managed to escape and found you in bad shape, but alive. They kept you alive and nursed you back to 'health'. 'There are many wondering countrymen of ours and they are hiding from our enemies.";
+
+			var introStoryP4 = "We need you to fix this. You HAVE to fix this.";
 
 			function calculateWorkforce(job, a) {
 
-				var workforce = parseFloat($('.woodWorkforce').text()) + parseFloat($('.stoneWorkforce').text()) + parseFloat($('.foodWorkforce').text());
+				var workforce = parseFloat($('.woodWorkforce').text()) + parseFloat($('.stoneWorkforce').text()) + parseFloat($('.foodWorkforce').text()) + builders;
 				
 				if($('div[data-building="WoodHut0"]').length > 0) {					
 					workforce = workforce + parseFloat($('div[data-building="WoodHut0"]').attr('data-workers'));					
@@ -334,7 +359,7 @@
 				var repeats = 0;
 				
 				setInterval(function() {
-					var workforce = parseFloat($('.woodWorkforce').text()) + parseFloat($('.stoneWorkforce').text()) + parseFloat($('.foodWorkforce').text());
+					var workforce = parseFloat($('.woodWorkforce').text()) + parseFloat($('.stoneWorkforce').text()) + parseFloat($('.foodWorkforce').text()) + builders;
 
 					if($('div[data-building="WoodHut0"]').length > 0) {					
 						workforce = workforce + parseFloat($('div[data-building="WoodHut0"]').attr('data-workers'));					
@@ -369,6 +394,100 @@
 			function feedTheVillage() {				
 				reduceFood = (resources.villagers * resources.foodRations) + 1;
 				resources.food -= reduceFood;
+			}
+
+			function readTheMainStory() {
+				$('.storyInfo').slideDown();
+				$('.storyInfo').append('<p class="p1">');				
+				var p = "";
+				var letterIndex = 0;
+				var p1Interval = setInterval(function(){
+					p += introStoryP1[letterIndex];					
+					$('.p1').html(p);
+					letterIndex++;
+					if(letterIndex == introStoryP1.length) {						
+						$('.storyInfo').append('<div class="p1Btns" style="display:none;">' + '<button class="btn btnClose">Close</button>' + '<button class="btn btnP1">Continue</button>' + '</div>');
+						$('.btnP1').attr('onclick','showP2()');
+						$('.btnClose').attr('onclick','closeStoryInfo()');
+						$('.p1Btns').slideDown();
+						clearInterval(p1Interval);
+					}
+				//}, 50);
+				}, 10);
+				
+			}
+
+			function showP2() {
+				$('.btnClose').slideUp();
+				$('.btnP1').slideUp(function() {
+					$('.storyInfo').append('<p class="p2">');					
+					var p = "";
+					var letterIndex = 0;
+					var p2Interval = setInterval(function(){
+						p += introStoryP2[letterIndex];					
+						$('.p2').html(p);
+						letterIndex++;
+						if(letterIndex == introStoryP2.length) {
+							$('.storyInfo').append('<div class="p2Btns" style="display:none;">' + '<button class="btn btnClose">Close</button>' + '<button class="btn btnP2">Continue</button>' + '</div>');
+							$('.btnP2').attr('onclick','showP3()');
+							$('.btnClose').attr('onclick','closeStoryInfo()');
+							$('.p2Btns').slideDown();
+							clearInterval(p2Interval);
+						}
+					//}, 50);
+					}, 10);					
+				});				
+			}
+
+			function showP3() {
+				$('.btnClose').slideUp();
+				$('.btnP2').slideUp(function() {
+					$('.storyInfo').append('<p class="p3">');
+					var p = "";
+					var letterIndex = 0;
+					var p3Interval = setInterval(function(){
+						p += introStoryP3[letterIndex];					
+						$('.p3').html(p);
+						letterIndex++;
+						if(letterIndex == introStoryP3.length) {
+							$('.storyInfo').append('<div class="p3Btns" style="display:none;">' + '<button class="btn btnClose">Close</button>' + '<button class="btn btnP3">Continue</button>' + '</div>');
+							$('.btnP3').attr('onclick','showP4()');
+							$('.btnClose').attr('onclick','closeStoryInfo()');
+							$('.p3Btns').slideDown();
+							clearInterval(p3Interval);
+						}
+					//}, 50);
+					}, 10);					
+				});				
+			}
+
+			function showP4() {
+				$('.btnClose').slideUp();
+				$('.btnP3').slideUp(function() {
+					$('.storyInfo').append('<p class="p4">');
+					var p = "";
+					var letterIndex = 0;
+					var p4Interval = setInterval(function(){
+						p += introStoryP4[letterIndex];					
+						$('.p4').html(p);
+						letterIndex++;
+						if(letterIndex == introStoryP4.length) {
+							$('.storyInfo').append('<div class="p4Btns" style="display:none;">' + '<button class="btn btnClose">Close</button>' + '</div>');
+							$('.btnP3').attr('onclick','closeStoryInfo()');
+							$('.btnClose').attr('onclick','closeStoryInfo()');
+							$('.p4Btns').slideDown();
+							clearInterval(p4Interval);
+						}
+					//}, 50);
+					}, 10);					
+				});				
+			}
+
+			function closeStoryInfo() {
+				$('.storyInfo').css('height', '0px');
+				setTimeout(function() {
+					$('.storyInfo').hide().empty();
+				}, 2000);								
 			}
 
 			$(document).ready(function() {
