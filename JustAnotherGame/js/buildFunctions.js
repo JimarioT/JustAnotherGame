@@ -44,24 +44,33 @@ function createBuilding(building) {
 
 function checkWhichBuilding(building) {
 	clearInterval(intervalCarrier);
-	addBuildingToList(building);
-	/*if (building == 'barracks') {
-		var buildingStatsctive = campaignInfo.baseInfo.buildings[building].buildingInfo.buildingStats.active;
-		if(buildingStatsctive == true) {
-			$('.btnBarracks').css('display','block');
-		}
-	}*/
+	addBuildingToList(building);	
 }
 
 function addBuildingToList(building) {
-	var buildingName = "", jobName = "";
+	var buildingName = "", jobName = "", workers = 0;
+	var workforce = parseFloat($('.woodWorkforce').text()) + parseFloat($('.stoneWorkforce').text()) + parseFloat($('.foodWorkforce').text());				
+
+	if($('div[data-building="WoodHut0"]').length > 0) {					
+		workforce = workforce + parseFloat($('div[data-building="WoodHut0"]').attr('data-workers'));					
+	}
+
+	if($('div[data-building="Quarry0"]').length > 0) {					
+		workforce = workforce + parseFloat($('div[data-building="Quarry0"]').attr('data-workers'));					
+	}
+
+	if($('div[data-building="Farm0"]').length > 0) {					
+		workforce = workforce + parseFloat($('div[data-building="Farm0"]').attr('data-workers'));					
+	}
+
 	if(building == 'hovels') {
 		buildingName = "Hovel";
 		jobName = "";
-		availableWorkers = workforce - resources.villagers;
-		if(availableWorkers >= 2) {			
+		availableWorkers = resources.villagers - workforce;
+		workersNeeded = campaignInfo.baseInfo.buildings.hovels.buildingInfo.levelRequirements[0].buildersNeeded;
+		if(availableWorkers >= workersNeeded) {
 			canBuilt = true;
-			resources.villagers = resources.villagers + 5;
+			builders += workersNeeded;			
 		}
 		else {
 			canBuilt = false;
@@ -72,26 +81,27 @@ function addBuildingToList(building) {
 		jobName = "woodCutter";
 		maxWorkers = campaignInfo.baseInfo.buildings[building].buildingInfo.levelBonus[0].maxAllowedWorkers;
 		extraStorage = campaignInfo.baseInfo.buildings.woodHuts.buildingInfo.levelBonus[0].extraStorage;
-		resources.woodStorage += extraStorage;
-		//var woodSetup = {'buildingName':'Wood Hut','jobName':'woodCutter','storage':'woodStorage'};
-		//buildingName = woodSetup.buildingName;
-		//jobName = woodSetup.jobName;
-		//extraStorage = campaignInfo.baseInfo.buildings[building].buildingInfo.levelBonus[0].extraStorage;
-		//resources[woodSetup.storage] += extraStorage;
-		if($('.woodWorkforce').text() != 0) {
-			if($('.woodWorkforce').text() >= 2) {				
-				builders = parseFloat($('.woodWorkforce').text());
-				var remainingVillagers = builders - 2;
+		workersNeeded = campaignInfo.baseInfo.buildings.woodHuts.buildingInfo.levelRequirements[0].buildersNeeded;
+		resources.woodStorage += extraStorage;		
+		if(parseFloat($('.woodWorkforce').text()) != 0) {
+			if(parseFloat($('.woodWorkforce').text()) >= workersNeeded) {
+				builders += workersNeeded;
+				var remainingVillagers = parseFloat($('.woodWorkforce').text()) - workersNeeded;
 				$('.woodWorkforce').text(remainingVillagers);
 				canBuilt = true;
 			}
 			else {
-				var workforce = parseFloat($('.woodWorkforce').text()) + parseFloat($('.stoneWorkforce').text()) + parseFloat($('.foodWorkforce').text());
+				
 				if(workforce < resources.villagers) {
+					var freeVillagers = resources.villagers - workforce;
 					builders = parseFloat($('.woodWorkforce').text());
-					var remainingVillagers = builders - 2;
-					$('.woodWorkforce').text(remainingVillagers);
-					canBuilt = true;
+					if((freeVillagers + builders) == workersNeeded) {
+						$('.woodWorkforce').text(0);
+						canBuilt = true;
+					}
+					else {
+						canBuilt = false;
+					}
 				}
 				else {
 					canBuilt = false;
@@ -100,75 +110,91 @@ function addBuildingToList(building) {
 		}
 	}
 	else if(building == 'quarry') {
+		console.log('quarry');
 		buildingName = 'Quarry';
 		jobName = "stoneCutter";
 		maxWorkers = campaignInfo.baseInfo.buildings[building].buildingInfo.levelBonus[0].maxAllowedWorkers;
 		extraStorage = campaignInfo.baseInfo.buildings.quarry.buildingInfo.levelBonus[0].extraStorage;
+		workersNeeded = campaignInfo.baseInfo.buildings.quarry.buildingInfo.levelRequirements[0].buildersNeeded;
 		resources.stoneStorage += extraStorage;
-		//var quarrySetup = {'buildingName':'Quarry','jobName':'stoneCutter','storage':'stoneStorage'};
-		//buildingName = quarrySetup.buildingName;
-		//jobName = quarrySetup.jobName;
-		//extraStorage = campaignInfo.baseInfo.buildings[building].buildingInfo.levelBonus[0].extraStorage;
-		//resources[quarrySetup.storage] += extraStorage;		
-		if($('.stoneWorkfocre').text() != 0) {
-			if($('.stoneWorkfocre').text() >= 2) {				
-				builders = parseFloat($('.stoneWorkfocre').text());
-				var remainingVillagers = builders - 2;
-				$('.stoneWorkfocre').text(remainingVillagers);
+		if(parseFloat($('.stoneWorkforce').text()) != 0) {
+			if(parseFloat($('.stoneWorkforce').text()) >= workersNeeded) {
+				builders += workersNeeded;
+				var remainingVillagers = parseFloat($('.stoneWorkforce').text()) - workersNeeded;
+				$('.stoneWorkforce').text(remainingVillagers);
 				canBuilt = true;
 			}
-			else {
-				var workforce = parseFloat($('.woodWorkforce').text()) + parseFloat($('.stoneWorkforce').text()) + parseFloat($('.foodWorkforce').text());
+			else {				
 				if(workforce < resources.villagers) {
-					builders = parseFloat($('.stoneWorkfocre').text());
-					var remainingVillagers = builders - 2;
-					$('.stoneWorkfocre').text(remainingVillagers);
-					canBuilt = true;
+					var freeVillagers = resources.villagers - workforce;
+					builders = parseFloat($('.stoneWorkforce').text());
+					if((freeVillagers + builders) == workersNeeded) {
+						$('.stoneWorkforce').text(0);
+						canBuilt = true;
+					}
+					else {
+						canBuilt = false;
+					}
 				}
 				else {
 					canBuilt = false;
 				}
 			}
-		}
+		}		
 	}
 	else if(building == 'farms') {
 		buildingName = 'Farm';
 		jobName = "farmer";
 		maxWorkers = campaignInfo.baseInfo.buildings[building].buildingInfo.levelBonus[0].maxAllowedWorkers;
 		extraStorage = campaignInfo.baseInfo.buildings.farms.buildingInfo.levelBonus[0].extraStorage;
-		resources.foodStorage += extraStorage;
-		//var farmSetup = {'buildingName':'Farm','jobName':'farmer','storage':'foodStorage'};
-		//buildingName = farmSetup.buildingName;
-		//jobName = farmSetup.jobName;
-		//extraStorage = campaignInfo.baseInfo.buildings[building].buildingInfo.levelBonus[0].extraStorage;
-		//resources[farmSetup.storage] += extraStorage;		
-		if($('.foodWorkforce').text() != 0) {
-			if($('.foodWorkforce').text() >= 2) {				
-				builders = parseFloat($('.foodWorkforce').text());
-				var remainingVillagers = builders - 2;
+		workersNeeded = campaignInfo.baseInfo.buildings.farms.buildingInfo.levelRequirements[0].buildersNeeded;
+		resources.foodStorage += extraStorage;		
+		if(parseFloat($('.foodWorkforce').text()) != 0) {
+			if(parseFloat($('.foodWorkforce').text()) >= workersNeeded) {
+				builders += workersNeeded;
+				var remainingVillagers = parseFloat($('.foodWorkforce').text()) - workersNeeded;
 				$('.foodWorkforce').text(remainingVillagers);
 				canBuilt = true;
 			}
-			else {
-				var workforce = parseFloat($('.woodWorkforce').text()) + parseFloat($('.stoneWorkforce').text()) + parseFloat($('.foodWorkforce').text());
+			else {				
 				if(workforce < resources.villagers) {
+					var freeVillagers = resources.villagers - workforce;
 					builders = parseFloat($('.foodWorkforce').text());
-					var remainingVillagers = builders - 2;
-					$('.foodWorkforce').text(remainingVillagers);
-					canBuilt = true;
+					if((freeVillagers + builders) == workersNeeded) {
+						$('.foodWorkforce').text(0);
+						canBuilt = true;
+					}
+					else {
+						canBuilt = false;
+					}
 				}
 				else {
 					canBuilt = false;
 				}
 			}
-		}
+		}		
 	}
 	else if(building == 'barracks') {
 		buildingName = 'Barracks';
 		jobName = "";		
-		availableWorkers = workforce - resources.villagers;		
-		if(availableWorkers >= 2) {			
-			canBuilt = true;			
+		availableWorkers = resources.villagers - workforce;
+		workersNeeded = campaignInfo.baseInfo.buildings.barracks.buildingInfo.levelRequirements[0].buildersNeeded;
+		if(availableWorkers >= workersNeeded) {
+			canBuilt = true;
+			builders += workersNeeded;			
+		}
+		else {
+			canBuilt = false;
+		}
+	}
+	else if(building == 'warehouse') {
+		buildingName = 'Warehouse';
+		jobName = "";		
+		availableWorkers = resources.villagers - workforce;
+		workersNeeded = campaignInfo.baseInfo.buildings.barracks.buildingInfo.levelRequirements[0].buildersNeeded;
+		if(availableWorkers >= workersNeeded) {
+			canBuilt = true;
+			builders += workersNeeded;			
 		}
 		else {
 			canBuilt = false;
@@ -177,54 +203,68 @@ function addBuildingToList(building) {
 
 	if(canBuilt) {
 		var totalBuildings = campaignInfo.baseInfo.buildings[building].buildingInfo.builtStatus;
+
+		if(building == 'woodHuts' || building == 'quarry' || building == 'farms') {
+			workers = workersNeeded;
+		}
+
+		var checkForWorkersModify = buildingName.replace(" ", "") + totalBuildings.length;
 	
-		var item = '<div data-building="' + buildingName.replace(" ", "") + totalBuildings.length + '" data-workers="0" data-maxWorkers="' + maxWorkers + '" data-level="1">' +
+		var item = '<div data-building="' + buildingName.replace(" ", "") + totalBuildings.length + '" data-workers="' + workers + '" data-maxWorkers="' + maxWorkers + '" data-level="1">' +
 						'<a>' + buildingName + '<span class="' + building + 'Lvl"> LvL 1</span></a>' +
-						'<div>' +				
+						'<div class="workersModify">' +				
 							'<i class="fa fa-minus foodMinus" onclick="removeWorkforce(\'' + jobName + '\', this)"></i>' +
-							'<span id="" class="'+ jobName +'Workforce">' + builders + '</span>' +
+							'<span id="" class="'+ jobName +'Workforce">' + workers + '</span>' +
 							'<i class="fa fa-plus foodPlus" onclick="calculateWorkforce(\'' + jobName + '\', this)"></i>' +	
 						'</div>' +
-					'</div>';
+					'</div>';		
 
-		var itemPreparingInfo = '<div>' + buildingName + ' under construction</div>';
-
-		var itemPreparing = '<div class="progress">' + 
-								'<div class="' + buildingName.replace(" ", "") + totalBuildings.length + '-progress-bar progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">' + 								
-								'</div>' + 
+		var itemPreparing = '<div class="' + buildingName.replace(" ", "") + 'UnderConstrution">' +
+								'<div>' + buildingName + ' under construction</div>' +
+								'<div class="progress">' + 
+									'<div class="' + buildingName.replace(" ", "") + totalBuildings.length + '-progress-bar progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">' + 								
+									'</div>' + 
+								'</div>' +
 							'</div>';
 
 		var prod = campaignInfo.baseInfo.buildings[building].buildingInfo.levelBonus[0].productionBonus;
 		var index = {'level': 1, 'productionBonus': prod, 'currentlyWorking': 0, 'maxAllowedWorkers': maxWorkers};
 
 		var timeRequired = campaignInfo.baseInfo.buildings[building].buildingInfo.levelBonus[0].timeRquired;
-		var percentageSteps = 100 / timeRequired;
-		$('.hovelList').append(itemPreparingInfo);
+		var percentageSteps = 100 / timeRequired;		
 		$('.hovelList').append(itemPreparing);
 		var timePassed = 0;
 		var percentageTotal = 0;
 		
-		var buildInterval = setInterval(function() {
+		buildingQuota[buildingName.trim()] = setInterval(function() {
+			var divToRemove =  buildingName.replace(" ", "") + 'UnderConstrution';
 			if(timePassed < timeRequired) {
 				timePassed++;
-				percentageTotal += percentageSteps;			
+				percentageTotal += percentageSteps;
 				$('.' + buildingName.replace(" ", "") + totalBuildings.length + '-progress-bar').css('width', parseInt(percentageTotal) + '%');
 				$('.' + buildingName.replace(" ", "") + totalBuildings.length + '-progress-bar').attr('aria-valuenow', parseInt(percentageTotal));
-				//$('.' + buildingName.replace(" ", "") + totalBuildings.length + '-progress-bar').text(parseInt(percentageTotal) + '%');			
 			}
 			else {
-				clearInterval(buildInterval);
-				$('.hovelList').empty();
+				clearInterval(buildingQuota[buildingName.trim()]);
+				delete buildingQuota[buildingName.trim()];
+				console.log(divToRemove);
+				$('.' + divToRemove).remove();
 				totalBuildings.push(index);
 				$('.hovelList').append(item);
-				builders = 0;
-				if(building == 'woodHuts' || building == 'quarry' || building == 'farms') {
-					//generateResources();
-				}			
-			}
+				builders -= 2;
+				if(building == 'woodHuts' || building == 'quarry' || building == 'farms') {					
+					generateResources();
+				}
+				else if (building == 'hovels') {
+					resources.villagers = resources.villagers + 5;
+					$('div[data-building=' + checkForWorkersModify + '] > div.workersModify').remove();
+				}
+				else {
+					$('div[data-building=' + checkForWorkersModify + '] > div.workersModify').remove();
+				}
+			}			
 		}, 1000);
 
-		
 		$('.playersGold').text(resources.gold + ' / ' + resources.goldStorage);
 		$('.playersWood').text(resources.wood + ' / ' + resources.woodStorage);
 		$('.playersStone').text(resources.stone + ' / ' + resources.stoneStorage);

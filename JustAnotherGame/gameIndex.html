@@ -189,6 +189,7 @@
 			var farmProdMod = 0;
 
 			var builders = 0;
+			var buildingQuota = {};
 
 			var boredVillagers = [
 				"*Hey boss, it's a tad boring over here! Let me help!*",
@@ -234,17 +235,19 @@
 				var workforce = parseFloat($('.woodWorkforce').text()) + parseFloat($('.stoneWorkforce').text()) + parseFloat($('.foodWorkforce').text()) + builders;
 				
 				if($('div[data-building="WoodHut0"]').length > 0) {					
-					workforce = workforce + parseFloat($('div[data-building="WoodHut0"]').attr('data-workers'));					
+					workforce = workforce + parseFloat($('div[data-building="WoodHut0"]').attr('data-workers'));
+					console.log('WoodHut: ' + workforce);
 				}
 
 				if($('div[data-building="Quarry0"]').length > 0) {					
-					workforce = workforce + parseFloat($('div[data-building="Quarry0"]').attr('data-workers'));					
+					workforce = workforce + parseFloat($('div[data-building="Quarry0"]').attr('data-workers'));			console.log('Quarry: ' + workforce);
 				}
 
 				if($('div[data-building="Farm0"]').length > 0) {					
 					workforce = workforce + parseFloat($('div[data-building="Farm0"]').attr('data-workers'));					
 				}
-			
+				
+				console.log(workforce);
 				if (workforce < resources.villagers) {
 					addWorkforce(job, a);
 				}				
@@ -268,30 +271,30 @@
 					$('.foodWorkforce').text(workforce);
 				}
 				if (job == 'woodCutter') {
-					var woodCutterWorkers = $(a).parent().attr('data-workers');
-					var maxAllowed = $(a).parent().attr('data-maxworkers');					
+					var woodCutterWorkers = $(a).parent().parent().attr('data-workers');
+					var maxAllowed = $(a).parent().parent().attr('data-maxworkers');					
 					if(woodCutterWorkers < maxAllowed) {
-						$(a).parent().attr('data-workers', parseFloat(woodCutterWorkers) + 1);
+						$(a).parent().parent().attr('data-workers', parseFloat(woodCutterWorkers) + 1);
 					}
-					woodCutterWorkers = $(a).parent().attr('data-workers');
+					woodCutterWorkers = $(a).parent().parent().attr('data-workers');
 					$('.woodCutterWorkforce').text(woodCutterWorkers);
 				}
 				if (job == 'stoneCutter') {
-					var stoneCutterWorkers = $(a).parent().attr('data-workers');					
-					var maxAllowed = $(a).parent().attr('data-maxworkers');					
+					var stoneCutterWorkers = $(a).parent().parent().attr('data-workers');					
+					var maxAllowed = $(a).parent().parent().attr('data-maxworkers');					
 					if(stoneCutterWorkers < maxAllowed) {
-						$(a).parent().attr('data-workers', parseFloat(stoneCutterWorkers) + 1);
+						$(a).parent().parent().attr('data-workers', parseFloat(stoneCutterWorkers) + 1);
 					}
-					stoneCutterWorkers = $(a).parent().attr('data-workers');
+					stoneCutterWorkers = $(a).parent().parent().attr('data-workers');
 					$('.stoneCutterWorkforce').text(stoneCutterWorkers);
 				}
 				if (job == 'farmer') {
-					var farmers = $(a).parent().attr('data-workers');
-					var maxAllowed = $(a).parent().attr('data-maxworkers');	
+					var farmers = $(a).parent().parent().attr('data-workers');
+					var maxAllowed = $(a).parent().parent().attr('data-maxworkers');	
 					if(farmers < maxAllowed) {
-						$(a).parent().attr('data-workers', parseFloat(farmers) + 1);
+						$(a).parent().parent().attr('data-workers', parseFloat(farmers) + 1);
 					}		
-					farmers = $(a).parent().attr('data-workers');
+					farmers = $(a).parent().parent().attr('data-workers');
 					$('.farmerWorkforce').text(farmers);
 				}
 
@@ -323,33 +326,29 @@
 					}					
 				}
 				if (job == 'woodCutter') {
-					workforce = $('.woodCutterWorkforce').text();
+					workforce = parseFloat($('.woodCutterWorkforce').text());
 					if(workforce > 0) {
 						workforce --;
+						console.log(workforce);
 						$('.woodCutterWorkforce').text(workforce);
+						$(a).parent().parent().attr('data-workers', workforce);
 					}
 				}
 				if (job == 'stoneCutter') {
 					workforce = $('.stoneCutterWorkforce').text();
 					if(workforce > 0) {
-						workforce --;
-						var stoneCutterWorkers = $(a).parent().attr('data-workers');
-						if(stoneCutterWorkers > 0) {
-							$(a).parent().attr('data-workers', parseFloat(stoneCutterWorkers) - 1);
-						}
+						workforce --;						
 						$('.stoneCutterWorkforce').text(workforce);
+						$(a).parent().parent().attr('data-workers', workforce);
 					}					
 				}
 				if (job == 'farmer') {
 					workforce = $('.farmerWorkforce').text();
 					if(workforce > 0) {
 						workforce --;
-						var farmers = $(a).parent().attr('data-workers');
-						if(farmers > 0) {
-							$(a).parent().attr('data-workers', parseFloat(farmers) - 1);
-						}
-					}
-					$('.farmerWorkforce').text(workforce)
+						$('.farmerWorkforce').text(workforce)
+						$(a).parent().parent().attr('data-workers', workforce);						
+					}					
 				}
 				clearInterval(intervalCarrier);
 				generateResources();
@@ -499,7 +498,7 @@
 				villagersFeedback();
 				showBuildingCosts();
 
-				$('.version').text('0.5.2');
+				$('.version').text('0.5.4');
 			});
 		</script>
 	</body>
