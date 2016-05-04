@@ -56,12 +56,9 @@ function generateResources() {
 		}			
 		if(resources.food < resources.foodStorage) {
 			reduceFood = (resources.villagers * resources.foodRations) + 2;			
-			//resources.food -= reduceFood;
-			foodConsumption = foodIncrease - reduceFood;
-			console.log('Food Consumption: ' + foodConsumption);
+			foodConsumption = foodIncrease - reduceFood;			
 			resources.food = resources.food + foodConsumption;
 			if(resources.food >= resources.foodStorage) {
-				//foodLost = resources.food - resources.foodStorage;				
 				resources.food = resources.foodStorage;
 			}
 		}		
@@ -105,7 +102,6 @@ function generateResources() {
 		$('.playersVillagers').text(resources.villagers);
 		
 	}, 2000);
-	//}, 500);	
 }			
 
 function resourceProdMod(building) {

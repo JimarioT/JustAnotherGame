@@ -167,6 +167,7 @@
 		      			<button class="btn btnWoodHut" data-dismiss="modal" onclick="createBuilding('woodHuts')"></button>
 		      			<button class="btn btnQuarry" data-dismiss="modal" onclick="createBuilding('quarry')"></button>
 		      			<button class="btn btnFarm" data-dismiss="modal" onclick="createBuilding('farms')"></button>
+		      			<button class="btn btnWarehouse" data-dismiss="modal" onclick="createBuilding('warehouse')"></button>
 		        	</div>
 		        	<div class="modal-footer">
 		        	  	<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -231,22 +232,7 @@
 			var introStoryP4 = "We need you to fix this. You HAVE to fix this.";
 
 			function calculateWorkforce(job, a) {
-
-				var workforce = sumTotalWorkforce();
-
-				/*var workforce = parseFloat($('.woodWorkforce').text()) + parseFloat($('.stoneWorkforce').text()) + parseFloat($('.foodWorkforce').text()) + builders;
-				
-				if($('div[data-building="WoodHut0"]').length > 0) {					
-					workforce = workforce + parseFloat($('div[data-building="WoodHut0"]').attr('data-workers'));					
-				}
-
-				if($('div[data-building="Quarry0"]').length > 0) {					
-					workforce = workforce + parseFloat($('div[data-building="Quarry0"]').attr('data-workers'));
-				}
-
-				if($('div[data-building="Farm0"]').length > 0) {					
-					workforce = workforce + parseFloat($('div[data-building="Farm0"]').attr('data-workers'));					
-				}*/
+				var workforce = sumTotalWorkforce();				
 				if (workforce < resources.villagers) {
 					addWorkforce(job, a);
 				}
@@ -356,19 +342,7 @@
 				var repeats = 0;
 				
 				setInterval(function() {
-					var workforce = parseFloat($('.woodWorkforce').text()) + parseFloat($('.stoneWorkforce').text()) + parseFloat($('.foodWorkforce').text()) + builders;
-
-					if($('div[data-building="WoodHut0"]').length > 0) {					
-						workforce = workforce + parseFloat($('div[data-building="WoodHut0"]').attr('data-workers'));					
-					}
-
-					if($('div[data-building="Quarry0"]').length > 0) {					
-						workforce = workforce + parseFloat($('div[data-building="Quarry0"]').attr('data-workers'));					
-					}
-
-					if($('div[data-building="Farm0"]').length > 0) {					
-						workforce = workforce + parseFloat($('div[data-building="Farm0"]').attr('data-workers'));					
-					}
+					var workforce = sumTotalWorkforce();
 
 					if(workforce < resources.villagers) {
 						var boredCase = Math.floor(((Math.random() * 10) + 1) / 2);						
