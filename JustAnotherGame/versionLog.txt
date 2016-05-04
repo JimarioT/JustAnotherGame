@@ -16,3 +16,7 @@ Version 0.5.3
 >>> Added a title to the idle villagers chat area
 >>> Lowered the height of the idle villagers chat area
 >>> Now the players can read the intro story
+
+Version 0.5.4
+>>> Added warehouse building
+>>> From now on no workers modifiers shall appear on buildings that have standard need of workers (eg. Warehouse, Barracks etc)

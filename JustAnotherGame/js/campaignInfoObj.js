@@ -18,7 +18,7 @@ var campaignInfo = {
 						'highestLvlUnit': 0
 					},								
 					'levelRequirements': [
-						{'gold': 10, 'wood': 50, 'stone': 0},
+						{'gold': 10, 'wood': 50, 'stone': 0, 'buildersNeeded': 2},
 						{'gold': 400, 'wood': 200, 'stone': 40},
 						{'gold': 800, 'wood': 400, 'stone': 80},
 						{'gold': 1600, 'wood': 800, 'stone': 160},
@@ -44,7 +44,7 @@ var campaignInfo = {
 						'highestLvlUnit': 0
 					},								
 					'levelRequirements': [
-						{'gold': 100, 'wood': 50, 'stone': 50},
+						{'gold': 100, 'wood': 200, 'stone': 200, 'buildersNeeded': 2},
 						{'gold': 1000, 'wood': 500, 'stone': 500}
 					],
 					'levelBonus': [
@@ -67,7 +67,7 @@ var campaignInfo = {
 						'highestLvlUnit': 0
 					},								
 					'levelRequirements': [
-						{'gold': 10, 'wood': 50, 'stone': 0},
+						{'gold': 10, 'wood': 50, 'stone': 0, 'buildersNeeded': 2},
 						{'gold': 200, 'wood': 250, 'stone': 100},
 						{'gold': 400, 'wood': 1250, 'stone': 200},
 						{'gold': 800, 'wood': 6250, 'stone': 400},
@@ -93,7 +93,7 @@ var campaignInfo = {
 						'highestLvlUnit': 0
 					},								
 					'levelRequirements': [
-						{'gold': 10, 'wood': 100, 'stone': 0},
+						{'gold': 10, 'wood': 100, 'stone': 0, 'buildersNeeded': 2},
 						{'gold': 200, 'wood': 500, 'stone': 100},
 						{'gold': 400, 'wood': 1000, 'stone': 200},
 						{'gold': 800, 'wood': 2000, 'stone': 400},
@@ -119,7 +119,7 @@ var campaignInfo = {
 						'highestLvlUnit': 0
 					},								
 					'levelRequirements': [
-						{'gold': 10, 'wood': 100, 'stone': 0},
+						{'gold': 10, 'wood': 100, 'stone': 0, 'buildersNeeded': 2},
 						{'gold': 200, 'wood': 500, 'stone': 100},
 						{'gold': 400, 'wood': 1000, 'stone': 200},
 						{'gold': 800, 'wood': 2000, 'stone': 400},
@@ -129,6 +129,32 @@ var campaignInfo = {
 						{'productionBonus': 1, 'maxAllowedWorkers': 2, 'extraStorage': 200, 'timeRquired': 60, 'workersRequired': 2},
 						{'productionBonus': 1.3, 'maxAllowedWorkers': 4, 'extraStorage': 400},
 						{'productionBonus': 1.6, 'maxAllowedWorkers': 6, 'extraStorage': 800},
+					],
+					'builtStatus': [									
+					]
+				}
+			},
+			'warehouse': {
+				'built' : 0,
+				'maxNumber': 1,
+				'buildingInfo': {
+					'buildingStats': {
+						'active': false,
+						'level': 0,
+						'productionBonus': 0,
+						'highestLvlUnit': 0
+					},								
+					'levelRequirements': [
+						{'gold': 10, 'wood': 300, 'stone': 300, 'buildersNeeded': 2},
+						{'gold': 200, 'wood': 500, 'stone': 100},
+						{'gold': 400, 'wood': 1000, 'stone': 200},
+						{'gold': 800, 'wood': 2000, 'stone': 400},
+						{'gold': 1600, 'wood': 4000, 'stone': 800}
+					],
+					'levelBonus': [
+						{'productionBonus': 0, 'maxAllowedWorkers': 2, 'extraGoldStorage': 200, 'extraWoodStorage': 1000, 'extraStoneStorage': 1000, 'extraFoodStorage': 1000, 'timeRquired': 60, 'workersRequired': 2},
+						{'productionBonus': 0, 'maxAllowedWorkers': 4, 'extraStorage': 400},
+						{'productionBonus': 0, 'maxAllowedWorkers': 6, 'extraStorage': 800},
 					],
 					'builtStatus': [									
 					]
