@@ -5,7 +5,7 @@ function generateResources() {
 	
 	woodProdMod = resourceProdMod('woodHuts');
 	quarryProdMod = resourceProdMod('quarry');
-	farmProdMod = resourceProdMod('farms');
+	farmProdMod = resourceProdMod('farms');	
 	
 	//var goldIncrease = resources.villagers * 1;
 
@@ -53,11 +53,15 @@ function generateResources() {
 				resources.stone = resources.stoneStorage;
 				canStoneIncrease = false;
 			}
-		}
+		}			
 		if(resources.food < resources.foodStorage) {
-			resources.food = resources.food + foodIncrease;
+			reduceFood = (resources.villagers * resources.foodRations) + 2;			
+			//resources.food -= reduceFood;
+			foodConsumption = foodIncrease - reduceFood;
+			console.log('Food Consumption: ' + foodConsumption);
+			resources.food = resources.food + foodConsumption;
 			if(resources.food >= resources.foodStorage) {
-				foodLost = resources.food - resources.foodStorage;
+				//foodLost = resources.food - resources.foodStorage;				
 				resources.food = resources.foodStorage;
 			}
 		}		
@@ -78,7 +82,6 @@ function generateResources() {
 			woodIncreaseMod = woodIncrease;			
 		}
 
-
 		totalResources += stoneIncreaseMod + woodIncreaseMod;
 		woodLost = 0;
 		stoneLost = 0;		
@@ -95,8 +98,6 @@ function generateResources() {
 				resources.gold = resources.goldStorage;
 			}
 		
-		feedTheVillage();
-
 		$('.playersGold').text(resources.gold + ' / ' + resources.goldStorage);
 		$('.playersWood').text(resources.wood + ' / ' + resources.woodStorage);
 		$('.playersStone').text(resources.stone + ' / ' + resources.stoneStorage);
