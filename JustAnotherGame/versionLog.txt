@@ -30,11 +30,13 @@ Version 0.5.5
 >>> Recycled code for villagers modifing
 >>> Recucled code for buildings being built
 
-Upcoming Version
+Version 0.5.6
 >>> Fix the corrent story appearance
 >>> recycled code
 >>> Fixed the bug where there are no workers on generic resources, buildings cannot be built due to free workers sortage.
 
+Future Version
+>>> Fix a small bug where
 
 Backet List
 >>> Remove uneeded code from gameIndex

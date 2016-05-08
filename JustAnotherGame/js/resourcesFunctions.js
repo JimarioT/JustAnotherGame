@@ -54,8 +54,8 @@ function generateResources() {
 				canStoneIncrease = false;
 			}
 		}			
-		if(resources.food < resources.foodStorage) {
-			reduceFood = (resources.villagers * resources.foodRations) + 2;			
+		if(resources.food <= resources.foodStorage) {
+			reduceFood = (resources.villagers * resources.foodRations) + 2;
 			foodConsumption = foodIncrease - reduceFood;			
 			resources.food = resources.food + foodConsumption;
 			if(resources.food >= resources.foodStorage) {

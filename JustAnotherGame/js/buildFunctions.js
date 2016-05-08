@@ -89,14 +89,14 @@ function addBuildingToList(building) {
 		var lvlRequirement = campaignInfo.baseInfo.buildings[building].buildingInfo.levelRequirements[0];
 		var buildingVar = campaignInfo.baseInfo.buildings[building].buildingInfo.buildingStats;
 
-			buildingVar.active = true;
-			buildingVar.level = 1;
+		buildingVar.active = true;
+		buildingVar.level = 1;
 
-			resources.gold = resources.gold - lvlRequirement.gold;
-			resources.wood = resources.wood - lvlRequirement.wood;
-			resources.stone = resources.stone - lvlRequirement.stone;
+		resources.gold = resources.gold - lvlRequirement.gold;
+		resources.wood = resources.wood - lvlRequirement.wood;
+		resources.stone = resources.stone - lvlRequirement.stone;
 
-			campaignInfo.baseInfo.buildings[building].built = campaignInfo.baseInfo.buildings[building].built + 1;
+		campaignInfo.baseInfo.buildings[building].built = campaignInfo.baseInfo.buildings[building].built + 1;
 
 		if(building == 'woodHuts' || building == 'quarry' || building == 'farms') {
 			workers = workersNeeded;
@@ -104,7 +104,7 @@ function addBuildingToList(building) {
 
 		var checkForWorkersModify = buildingName.replace(" ", "") + totalBuildings.length;		
 	
-		var item = '<div data-building="' + buildingName.replace(" ", "") + totalBuildings.length + '" data-workers="' + workers + '" data-maxWorkers="' + maxWorkers + '" data-level="1">' +
+		var item = '<div data-building="' + checkForWorkersModify + '" data-workers="' + workers + '" data-maxWorkers="' + maxWorkers + '" data-level="1">' +
 						'<a>' + buildingName + '<span class="' + building + 'Lvl"> LvL 1</span></a>' +
 						'<div class="workersModify">' +				
 							'<i class="fa fa-minus foodMinus" onclick="removeWorkforce(\'' + jobName + '\', this)"></i>' +
@@ -116,7 +116,7 @@ function addBuildingToList(building) {
 		var itemPreparing = '<div class="' + buildingName.replace(" ", "") + 'UnderConstrution">' +
 								'<div>' + buildingName + ' under construction</div>' +
 								'<div class="progress">' + 
-									'<div class="' + buildingName.replace(" ", "") + totalBuildings.length + '-progress-bar progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">' + 								
+									'<div class="' + checkForWorkersModify + '-progress-bar progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">' + 								
 									'</div>' + 
 								'</div>' +
 							'</div>';
@@ -136,8 +136,8 @@ function addBuildingToList(building) {
 			if(timePassed < timeRequired) {
 				timePassed++;
 				percentageTotal += percentageSteps;
-				$('.' + buildingName.replace(" ", "") + totalBuildings.length + '-progress-bar').css('width', parseInt(percentageTotal) + '%');
-				$('.' + buildingName.replace(" ", "") + totalBuildings.length + '-progress-bar').attr('aria-valuenow', parseInt(percentageTotal));
+				$('.' + checkForWorkersModify + '-progress-bar').css('width', parseInt(percentageTotal) + '%');
+				$('.' + checkForWorkersModify + '-progress-bar').attr('aria-valuenow', parseInt(percentageTotal));
 			}
 			else {
 				clearInterval(buildingQuota[buildingName.trim()]);
@@ -197,9 +197,7 @@ function nonResourcesBuildings(a) {
 
 function resourcesBuildings(a, b, c) {	
 	maxWorkers = campaignInfo.baseInfo.buildings[a].buildingInfo.levelBonus[0].maxAllowedWorkers;
-	//extraStorage = campaignInfo.baseInfo.buildings[a].buildingInfo.levelBonus[0].extraStorage;
 	workersNeeded = campaignInfo.baseInfo.buildings[a].buildingInfo.levelRequirements[0].buildersNeeded;
-	//resources[b] += extraStorage;		
 	if(parseFloat($('.' + c).text()) != 0) {
 		if(parseFloat($('.' + c).text()) >= workersNeeded) {
 			builders += workersNeeded;
