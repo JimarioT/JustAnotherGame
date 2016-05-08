@@ -1,3 +1,5 @@
+Total Lines saved from recycling = 211;
+
 Version 0.5
 >>> Added version number info
 >>> Added "Read the Story" button
@@ -18,5 +20,34 @@ Version 0.5.3
 >>> Now the players can read the intro story
 
 Version 0.5.4
->>> Added warehouse building
+>>> Added warehouse building to the game object
 >>> From now on no workers modifiers shall appear on buildings that have standard need of workers (eg. Warehouse, Barracks etc)
+
+Version 0.5.5
+>>> Fixed varius bugs:
+	villagers modifing,
+	resources generation
+>>> Recycled code for villagers modifing
+>>> Recucled code for buildings being built
+
+Upcoming Version
+>>> Fix the corrent story appearance
+>>> recycled code
+>>> Fixed the bug where there are no workers on generic resources, buildings cannot be built due to free workers sortage.
+
+
+Backet List
+>>> Remove uneeded code from gameIndex
+>>> recycle code
+>>> When the Warehouse is created the resources storages will increase.
+>>> When the Barracks are built, a button from where the user will be able to buy warriors will appear.
+>>> Create the offensive and defensive capabilities of the player's fortress
+>>> Add defensive buildings (Wall, towers, gates)
+>>> Add offensive and defensive capabilities of villagers, buildings, and enemies
+>>> Calculate hit propability, hit dmg
+>>> Create black market
+>>> Create rogue villages
+>>> Create resources demands from rogue village
+>>> Add the rest of the story
+>>> Add a map so the player can have an idea about his whereabouts
+>>> Modify the save game function to use cookies for saving the player's data
