@@ -1,12 +1,12 @@
 function createBuilding(building) {				
 	//Check how many buildings of that kind are built
-	var buildingsBuilt = campaignInfo.baseInfo.buildings[building].built;
+	var buildingsBuilt = buildingsObj[building].built;
 	
 	//Maximum allowed buildings
-	var maxBuildingssAllowed = campaignInfo.baseInfo.buildings[building].maxNumber;
+	var maxBuildingssAllowed = buildingsObj[building].maxNumber;
 
 	//Set the Level requirement variable (for cleared code)
-	var lvlRequirement = campaignInfo.baseInfo.buildings[building].buildingInfo.levelRequirements[0];
+	var lvlRequirement = buildingsObj[building].buildingInfo.levelRequirements[0];
 
 	if (buildingsBuilt < maxBuildingssAllowed ) {
 
@@ -85,18 +85,14 @@ function addBuildingToList(building) {
 	}
 
 	if(canBuilt) {
-		var totalBuildings = campaignInfo.baseInfo.buildings[building].buildingInfo.builtStatus;
-		var lvlRequirement = campaignInfo.baseInfo.buildings[building].buildingInfo.levelRequirements[0];
-		var buildingVar = campaignInfo.baseInfo.buildings[building].buildingInfo.buildingStats;
-
-		buildingVar.active = true;
-		buildingVar.level = 1;
+		var totalBuildings = buildingsObj[building].buildingInfo.builtStatus;
+		var lvlRequirement = buildingsObj[building].buildingInfo.levelRequirements[0];				
 
 		resources.gold = resources.gold - lvlRequirement.gold;
 		resources.wood = resources.wood - lvlRequirement.wood;
 		resources.stone = resources.stone - lvlRequirement.stone;
 
-		campaignInfo.baseInfo.buildings[building].built = campaignInfo.baseInfo.buildings[building].built + 1;
+		buildingsObj[building].built = buildingsObj[building].built + 1;
 
 		if(building == 'woodHuts' || building == 'quarry' || building == 'farms') {
 			workers = workersNeeded;
@@ -121,18 +117,19 @@ function addBuildingToList(building) {
 								'</div>' +
 							'</div>';
 
-		var prod = campaignInfo.baseInfo.buildings[building].buildingInfo.levelBonus[0].productionBonus;
+		var prod = buildingsObj[building].buildingInfo.levelBonus[0].productionBonus;
 		var index = {'level': 1, 'productionBonus': prod, 'currentlyWorking': 0, 'maxAllowedWorkers': maxWorkers};
 
-		var timeRequired = campaignInfo.baseInfo.buildings[building].buildingInfo.levelBonus[0].timeRquired;
-		var percentageSteps = 100 / timeRequired;		
-		$('.hovelList').append(itemPreparing);
+		var timeRequired = buildingsObj[building].buildingInfo.levelBonus[0].timeRquired;
+		var percentageSteps = 100 / timeRequired;				
 		var timePassed = 0;
 		var percentageTotal = 0;
 		
+		$('.prodBuilds').append(itemPreparing);
+
 		buildingQuota[buildingName.trim()] = setInterval(function() {
 			var divToRemove =  buildingName.replace(" ", "") + 'UnderConstrution';
-			var workersNeeded = campaignInfo.baseInfo.buildings[building].buildingInfo.levelRequirements[0].buildersNeeded;
+			var workersNeeded = buildingsObj[building].buildingInfo.levelRequirements[0].buildersNeeded;
 			if(timePassed < timeRequired) {
 				timePassed++;
 				percentageTotal += percentageSteps;
@@ -144,18 +141,13 @@ function addBuildingToList(building) {
 				delete buildingQuota[buildingName.trim()];				
 				$('.' + divToRemove).remove();
 				totalBuildings.push(index);
-				$('.hovelList').append(item);				
-				builders -= workersNeeded;				
+				
 				if(building == 'woodHuts' || building == 'quarry' || building == 'farms') {
-					extraStorage = campaignInfo.baseInfo.buildings[building].buildingInfo.levelBonus[0].extraStorage;					
-					resources[storageType] += extraStorage;
-					$('.playersWood').text(resources.wood + ' / ' + resources.woodStorage);
-					$('.playersStone').text(resources.stone + ' / ' + resources.stoneStorage);
-					$('.playersFood').text(resources.food + ' / ' + resources.foodStorage);		
-					clearInterval(intervalCarrier);
-					generateResources();
+					resourcesBuildsFinish(item, building, storageType);
 				}
 				else if (building == 'hovels') {
+					$('.comBuilds').append(item);
+					builders -= workersNeeded;
 					resources.villagers = resources.villagers + 5;
 					$('div[data-building=' + checkForWorkersModify + '] > div.workersModify').remove();
 					$('.playersVillagers').text(resources.villagers);
@@ -163,6 +155,8 @@ function addBuildingToList(building) {
 					generateResources();
 				}
 				else {
+					$('.milDefBuilds').append(item);
+					builders -= workersNeeded;
 					$('div[data-building=' + checkForWorkersModify + '] > div.workersModify').remove();
 					clearInterval(intervalCarrier);
 					generateResources();
@@ -183,9 +177,22 @@ function addBuildingToList(building) {
 	}
 }
 
+function resourcesBuildsFinish(a, b, c) {
+	$('.prodBuilds').append(a);
+	builders -= workersNeeded;
+	extraStorage = buildingsObj[b].buildingInfo.levelBonus[0].extraStorage;					
+	resources[c] += extraStorage;
+	$('.playersWood').text(resources.wood + ' / ' + resources.woodStorage);
+	$('.playersStone').text(resources.stone + ' / ' + resources.stoneStorage);
+	$('.playersFood').text(resources.food + ' / ' + resources.foodStorage);		
+	clearInterval(intervalCarrier);
+	generateResources();
+
+}
+
 function nonResourcesBuildings(a) {	
 	availableWorkers = resources.villagers - workforce;
-	workersNeeded = campaignInfo.baseInfo.buildings[a].buildingInfo.levelRequirements[0].buildersNeeded;
+	workersNeeded = buildingsObj[a].buildingInfo.levelRequirements[0].buildersNeeded;
 	if(availableWorkers >= workersNeeded) {
 		canBuilt = true;
 		builders += workersNeeded;
@@ -196,8 +203,8 @@ function nonResourcesBuildings(a) {
 }
 
 function resourcesBuildings(a, b, c) {	
-	maxWorkers = campaignInfo.baseInfo.buildings[a].buildingInfo.levelBonus[0].maxAllowedWorkers;
-	workersNeeded = campaignInfo.baseInfo.buildings[a].buildingInfo.levelRequirements[0].buildersNeeded;
+	maxWorkers = buildingsObj[a].buildingInfo.levelBonus[0].maxAllowedWorkers;
+	workersNeeded = buildingsObj[a].buildingInfo.levelRequirements[0].buildersNeeded;
 	if(parseFloat($('.' + c).text()) != 0) {
 		if(parseFloat($('.' + c).text()) >= workersNeeded) {
 			builders += workersNeeded;
@@ -244,7 +251,7 @@ function showBuildingCosts() {
 	var buildingNames = ['Barracks', 'Hovel', 'WoodHut', 'Quarry', 'Farm', 'Warehouse'];
 	var buildingObjects = ['barracks', 'hovels', 'woodHuts', 'quarry', 'farms', 'warehouse'];
 	for (var i = 0; i < buildingNames.length; i++) {
-		var minifiedValue = campaignInfo.baseInfo.buildings[buildingObjects[i]].buildingInfo.levelRequirements[0];
+		var minifiedValue = buildingsObj[buildingObjects[i]].buildingInfo.levelRequirements[0];
 		var setInfo = 	'<span class"spn' + buildingNames[i] +'">' + buildingNames[i] + '</span><br/>' + 
 						'<span class"spn' + buildingNames[i] + 'gold"> Gold: ' + minifiedValue.gold + '</span><br/>' +
 						'<span class"spn' + buildingNames[i] + 'wood"> Wood: ' + minifiedValue.wood + '</span><br/>' +

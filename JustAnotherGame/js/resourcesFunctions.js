@@ -9,9 +9,9 @@ function generateResources() {
 	
 	//var goldIncrease = resources.villagers * 1;
 
-	var woodHutBuilt = campaignInfo.baseInfo.buildings.woodHuts.buildingInfo.builtStatus;
-	var quarryBuilt = campaignInfo.baseInfo.buildings.quarry.buildingInfo.builtStatus;
-	var farmBuilt = campaignInfo.baseInfo.buildings.farms.buildingInfo.builtStatus;
+	var woodHutBuilt = buildingsObj.woodHuts.buildingInfo.builtStatus;
+	var quarryBuilt = buildingsObj.quarry.buildingInfo.builtStatus;
+	var farmBuilt = buildingsObj.farms.buildingInfo.builtStatus;
 
 	if(woodHutBuilt == 0) {
 		var woodIncrease = (10 * parseFloat($('.woodWorkforce').text())) * 0.5;
@@ -105,13 +105,13 @@ function generateResources() {
 }			
 
 function resourceProdMod(building) {
-	var buildingBuilt = campaignInfo.baseInfo.buildings[building].built;
+	var buildingBuilt = buildingsObj[building].built;
 	if (buildingBuilt == 1) {
-		buildingProdMod = campaignInfo.baseInfo.buildings[building].buildingInfo.levelBonus[0].productionBonus;
+		buildingProdMod = buildingsObj[building].buildingInfo.levelBonus[0].productionBonus;
 	}
 	else if (buildingBuilt == 2) {
-		buildingProdModA = campaignInfo.baseInfo.buildings[building].buildingInfo.levelBonus[0].productionBonus;
-		buildingProdModB = campaignInfo.baseInfo.buildings[building].buildingInfo.levelBonus[0].productionBonus;
+		buildingProdModA = buildingsObj[building].buildingInfo.levelBonus[0].productionBonus;
+		buildingProdModB = buildingsObj[building].buildingInfo.levelBonus[0].productionBonus;
 		buildingProdMod = buildingProdModA + buildingProdModB;
 	}	
 	return buildingProdMod;
