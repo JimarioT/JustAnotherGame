@@ -38,6 +38,10 @@ Version 0.5.6
 Future Version
 >>> Fix a small bug where
 >>> Removed uneeded code from gameIndex
+>>> Added storyFunction.js and removed all functionality relative to the story, from gameIndex
+>>> Added villagersFunction.js and removed all functionality relative to the villagers, from gameIndex
+>>> Modified the obj from where the game info are drawn
+>>> Fixing the functionality on the buildFunctions.js by spliting the main build function into smaller ones
 
 
 Backet List
