@@ -42,6 +42,10 @@ Future Version
 >>> Added villagersFunction.js and removed all functionality relative to the villagers, from gameIndex
 >>> Modified the obj from where the game info are drawn
 >>> Fixing the functionality on the buildFunctions.js by spliting the main build function into smaller ones
+>>> 13/05/2016
+>>> Added some graphics
+>>> Modified the location where the buildings will appear
+>>> Modified a bit the source code.
 
 
 Backet List

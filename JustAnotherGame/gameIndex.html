@@ -17,6 +17,9 @@
 		<title>Just a Game</title>
 
 		<style type="text/css">
+			* {
+				cursor: pointer;
+			}
 			.unitCreation {
 				margin-top: 10px;
 				margin-bottom: 10px;
@@ -59,8 +62,25 @@
 				padding: 10px;
 			}
 
+			.prodBuilds > div, .comBuilds > div, .milDefBuilds > div {
+				padding-bottom: 10px;
+			}
+
+			.prodBuilds > div .progress, .comBuilds > div, .milDefBuilds > div {
+				margin: auto;
+			}
+
 			textarea {
 				height: 200px;
+			}	
+
+			legend {
+				font-size: 14px;
+				font-weight: bold;
+			}
+
+			fieldset {
+				display:none;
 			}
 		</style>
 
@@ -69,7 +89,7 @@
 
 		<div class="pgOne" style="display:none;">
 			<div class="container">
-				<div class="row text-center">
+				<div class="row text-center">					
 					<div class="col-xs-12">
 						<h3 class="text-center">TBA</h3>
 						<button class="btn btn-primary btnContinue col-xs-4 col-xs-offset-4">Continue</button>
@@ -86,6 +106,7 @@
 
 		<div class="pgTwo">
 			<div class="container">
+				
 				<div class="row text-left">
 					<div class="col-xs-12">
 						<div class="col-xs-3 goldCont">
@@ -124,19 +145,22 @@
 							
 						</div>
 						<div class="col-xs-7">
-							<div class="row comBuilds">
-								
-							</div>
-							<div class="row prodBuilds">
-								
-							</div>
-							<div class="row milDefBuilds">
-								
-							</div>
+							<fieldset class="col-xs-12 comBuildsCont" style="border:solid #c5c5c5 1px;">
+								<legend style="width:auto">Community Buildings</legend>
+								<div class="row comBuilds"></div>
+							</fieldset>
+							<fieldset class="col-xs-12 prodBuildsCont" style="border:solid #c5c5c5 1px;">
+								<legend style="width:auto">Resource Buildings</legend>
+								<div class="row prodBuilds"></div>
+							</fieldset>
+							<fieldset class="col-xs-12 milDefBuildsCont" style="border:solid #c5c5c5 1px;">
+								<legend style="width:auto">Military / Defensive Buildings</legend>
+								<div class="row milDefBuilds"></div>
+							</fieldset>
 						</div>
 						<div class="col-xs-5">
 							<span class="col-xs-12">Idle villager(s) chat</span>
-							<textarea class="col-xs-10 col-xs-offset-1"></textarea>
+							<textarea class="col-xs-10 col-xs-offset-1" disabled="disabled"></textarea>
 						</div>
 						
 						<div class="col-xs-12">
@@ -165,7 +189,7 @@
 						</div>
 					</div>					
 				</div>
-			</div>
+			</div>			
 		</div>
 
 		<div class="modal fade" id="buildingModal" role="dialog">
